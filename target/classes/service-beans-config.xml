@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-4.3.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+	
+	<import resource="classpath:dao-config.xml" />
+	
+	<bean id="userService" class="com.morozov.auction.service.impl.UserServiceImpl">
+		<property name="userDao" ref="userDao"/>		
+	</bean>
+	
+<!-- <bean id="productService" class="com.bigroi.shop.service.impl.ProductServiceImpl">
+		<property name="productDao" ref="productDao"/>		
+	</bean> -->	
+	
+<!-- <bean id="purchaseOrderService" class="com.bigroi.shop.service.impl.PurchaseOrderServiceImpl">
+		<property name="purchaseOrderDao" ref="purchaseOrderDao"/>		
+	</bean> -->	
+	
+<!-- <bean id="purchaseOrderProductService" class="com.bigroi.shop.service.impl.PurchaseOrderProductServiceImpl">
+		<property name="purchaseOrderProductDao" ref="purchaseOrderProductDao"/>		
+	</bean> -->	
+	
+<!-- <bean id="userRegistrationService" class="com.bigroi.shop.service.impl.UserRegistrationServiceImpl">				
+	</bean> -->	
+	
+<!-- <bean id="passwordEncryptionService" class="com.bigroi.shop.service.impl.PasswordEncryptionServiceImpl">				
+	</bean> -->	
+	
+<!-- <bean id="userCredentialsService" class="com.bigroi.shop.service.impl.UserCredentialsServiceImpl">				
+	</bean>	 -->		
+
+</beans>
