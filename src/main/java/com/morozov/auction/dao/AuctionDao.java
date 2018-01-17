@@ -3,7 +3,7 @@ package com.morozov.auction.dao;
 import java.util.List;
 
 import com.morozov.auction.model.Auction;
-import com.morozov.auction.model.StatCdRef;
+import com.morozov.auction.model.StatusCode;
 
 /**
  * @author Sergey Morozov
@@ -12,15 +12,17 @@ import com.morozov.auction.model.StatCdRef;
 
 public interface AuctionDao {
 
-	    public void save(Auction auction) throws Exception;
+	    public void createAuction(Auction auction) throws Exception;
 		
 		public Auction findById(Integer auctionId) throws Exception;
 		
 		public List<Auction> findAll() throws Exception;
 		
-		public List<Auction> findByStatusCode(StatCdRef statCdRef) throws Exception;
+		public List<Auction> findByStatusCode(Integer statusCode) throws Exception;
 		
 		public int countAll() throws Exception;
+		
+//		public void cancelAuction(Auction aucton) throws Exception;
 		
 	}
 

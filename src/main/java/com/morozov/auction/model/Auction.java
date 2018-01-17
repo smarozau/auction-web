@@ -1,48 +1,43 @@
 package com.morozov.auction.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.text.SimpleDateFormat;
+
 import java.util.Date;
 import java.util.List;
 
 
-/**
- * The persistent class for the auction database table.
- * 
- */
-@Entity
-@NamedQuery(name="Auction.findAll", query="SELECT a FROM Auction a")
 public class Auction implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	private int id;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="END_TIME")
+	
+	private Integer id;
+	
 	private Date endTime;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="START_TIME")
 	private Date startTime;
 
-	//bi-directional many-to-one association to StatCdRef
-	@ManyToOne
-	@JoinColumn(name="STATUS_CODE")
-	private StatCdRef statCdRef;
+	private StatusCode statusCode;
 
-	//bi-directional many-to-one association to Lot
-	@OneToMany(mappedBy="auction")
 	private List<Lot> lots;
 
 	public Auction() {
 	}
+	
+	public Auction(Date endTime, Date startTime, StatusCode statusCode) {
+		
+		this.endTime = endTime;
+		this.startTime = startTime;
+		this.statusCode = statusCode;
+	}
 
-	public int getId() {
+
+
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -62,12 +57,12 @@ public class Auction implements Serializable {
 		this.startTime = startTime;
 	}
 
-	public StatCdRef getStatCdRef() {
-		return this.statCdRef;
+	public StatusCode getStatusCode() {
+		return this.statusCode;
 	}
 
-	public void setStatCdRef(StatCdRef statCdRef) {
-		this.statCdRef = statCdRef;
+	public void setStatusCode(StatusCode statusCode) {
+		this.statusCode = statusCode;
 	}
 
 	public List<Lot> getLots() {
@@ -78,4 +73,15 @@ public class Auction implements Serializable {
 		this.lots = lots;
 	}
 
+	public String getFormattedTime(Date date) {
+		SimpleDateFormat formatDate = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss");
+		return formatDate.format(date);
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("Auction {id=%d, start time=%s, end time=%s, %s, list of lots=%s}",
+				id, startTime, endTime, statusCode, getLots());	
+	}
+
+}

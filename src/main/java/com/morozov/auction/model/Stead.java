@@ -6,78 +6,114 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 
-/**
- * The persistent class for the stead database table.
- * 
- */
-@Entity
-@NamedQuery(name="Stead.findAll", query="SELECT s FROM Stead s")
+
 public class Stead implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private int id;
-
-	private String country;
+	private Integer id;
 	
-	private String city;
+	private User owner;
+
+	private String steadCountry;
 	
-	private String address;
+	private String steadRegion;
+	
+	private String steadCity;
+	
+	private String steadAddress;
 
-	private Object coordinates;
+	private String coordinates;
+	
+	private Double size;
 
-	@Column(name="CRTD_TMS")
 	private Timestamp crtdTms;
 
 	private String description;
 
-	@Column(name="RESERVE_PRICE")
 	private BigDecimal reservePrice;
 
-	@Column(name="UPTD_TMS")
 	private Timestamp uptdTms;
 
 	public Stead() {
 	}
 
-	public int getId() {
+	public Stead(User owner, String steadCountry, String steadRegion, String steadCity, String steadAddress,
+			String coordinates, Double size, String description, BigDecimal reservePrice) {
+		super();
+		this.owner = owner;
+		this.steadCountry = steadCountry;
+		this.steadRegion = steadRegion;
+		this.steadCity = steadCity;
+		this.steadAddress = steadAddress;
+		this.coordinates = coordinates;
+		this.size = size;
+		this.description = description;
+		this.reservePrice = reservePrice;
+	}
+
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public String getAddress() {
-		return this.address;
+	public User getOwner() {
+		return owner;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setOwner(User owner) {
+		this.owner = owner;
 	}
 
-	public String getCity() {
-		return this.city;
+	public String getSteadAddress() {
+		return this.steadAddress;
 	}
 
-	public void setCity(String city) {
-		this.city = city;
+	public void setSteadAddress(String steadAddress) {
+		this.steadAddress = steadAddress;
 	}
 
-	public Object getCoordinates() {
+	public String getSteadCity() {
+		return this.steadCity;
+	}
+
+	public void setSteadCity(String steadCity) {
+		this.steadCity = steadCity;
+	}
+
+	public String getCoordinates() {
 		return this.coordinates;
 	}
 
-	public void setCoordinates(Object coordinates) {
+	public void setCoordinates(String coordinates) {
 		this.coordinates = coordinates;
 	}
 
-	public String getCountry() {
-		return this.country;
+	public Double getSize() {
+		return size;
 	}
 
-	public void setCountry(String country) {
-		this.country = country;
+	public void setSize(Double size) {
+		this.size = size;
+	}
+
+	public String getSteadCountry() {
+		return this.steadCountry;
+	}
+
+	public void setSteadCountry(String steadCountry) {
+		this.steadCountry = steadCountry;
+	}
+
+	public String getSteadRegion() {
+		return steadRegion;
+	}
+
+	public void setSteadRegion(String steadRegion) {
+		this.steadRegion = steadRegion;
 	}
 
 	public Timestamp getCrtdTms() {
@@ -110,6 +146,13 @@ public class Stead implements Serializable {
 
 	public void setUptdTms(Timestamp uptdTms) {
 		this.uptdTms = uptdTms;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("Stead {id=%d, %s, country=%s, region=%s, city=%s, address=%s, coordinates=%s, size=%s, reserve price=%f}",
+				getId(), getOwner(), getSteadCountry(), getSteadRegion(), getSteadCity(), getSteadAddress(), 
+				getCoordinates(), getSize(), getReservePrice());	
 	}
 
 }

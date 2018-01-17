@@ -19,49 +19,49 @@ import com.morozov.auction.helpers.LogHelper;
 import com.morozov.auction.model.User;
 import com.morozov.auction.service.UserService;
 
-
-
 @Controller
 public class UserController {
-	
+
 	private Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private MessageSource messageSource;
-	
-	@RequestMapping (path = "/users", method = RequestMethod.GET)
-	public String showUsers (ModelMap model) throws Exception{
+
+	@RequestMapping(path = "/users", method = RequestMethod.GET)
+	public String showUsers(ModelMap model, Locale locale) throws Exception {
 		List<User> users = userService.findAll();
-		model.addAttribute("title", "Users");
+		String title = messageSource.getMessage("title.users", new Object[0], locale);
+		model.addAttribute("title", title);
 		model.addAttribute("users", users);
 		return "users";
 	}
-	
-	@RequestMapping(path="/user/{userId}", method = RequestMethod.GET)
-	public String showUser(@PathVariable ("userId") int userId, ModelMap model, Locale locale) throws Exception{
+
+	@RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
+	public String showUser(@PathVariable("userId") int userId, ModelMap model, Locale locale) throws Exception {
 		User user = userService.findById(userId);
 		String title = messageSource.getMessage("title.userProfile", new Object[0], locale);
 		model.addAttribute("title", title);
 		model.addAttribute("user", user);
 		return "user";
-		
+
 	}
-	
-	@RequestMapping(path="/user/{userId}/edit", method = RequestMethod.GET)
+
+	@RequestMapping(path = "/user/{userId}/edit", method = RequestMethod.GET)
 	public String editUser(@PathVariable("userId") int userId, ModelMap model, Locale locale) throws Exception {
 		User user = userService.findById(userId);
 		String title = messageSource.getMessage("title.userProfile", new Object[0], locale);
 		model.addAttribute("title", title);
 		model.addAttribute("user", user);
-	    return "userEdit";
+		return "userEdit";
 	}
-	
-	@RequestMapping(path="/user/{userId}/save", method = RequestMethod.POST)
-	public String saveUser(@Validated User user, BindingResult bindingResult, ModelMap model, @PathVariable("userId") int userId) throws Exception {
-		if(user.getUserId() != null && user.getUserId() != userId ) {
+
+	@RequestMapping(path = "/user/{userId}/save", method = RequestMethod.POST)
+	public String saveUser(@Validated User user, BindingResult bindingResult, ModelMap model,
+			@PathVariable("userId") int userId) throws Exception {
+		if (user.getUserId() != null && user.getUserId() != userId) {
 			throw new SecurityException("User ID violation");
 		}
 		logger.debug("Saving user:" + user);
@@ -70,6 +70,6 @@ public class UserController {
 			return "userEdit";
 		}
 		userService.save(user);
-	    return "redirect:/user/" + user.getUserId();
+		return "redirect:/user/" + user.getUserId();
 	}
 }

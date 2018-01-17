@@ -18,31 +18,29 @@
 	<bean id="userDao" class="com.morozov.auction.dao.impl.UserDaoImpl">
 		<property name="npJdbcTemplate" ref="npJdbcTemplate" />
 	</bean>
-	
-<!--	<bean id="userDao" class="com.bigroi.shop.dao.impl.UserDaoJpaImpl">		
-	</bean>  -->
-	
-<!--	<bean id="productDao" class="com.bigroi.shop.dao.impl.ProductDaoImpl">
+
+	<bean id="auctionDao" class="com.morozov.auction.dao.impl.AuctionDaoImpl">
+	</bean>
+
+	<bean id="steadDao" class="com.morozov.auction.dao.impl.SteadDaoImpl">
 		<property name="npJdbcTemplate" ref="npJdbcTemplate" />
 	</bean>
-	
-	<bean id="userAddressDao" class="com.bigroi.shop.dao.impl.UserAddressDaoImpl" scope="singleton">
-		<property name="npJdbcTemplate" ref="npJdbcTemplate" />
-	</bean> -->
 
-<!--  	<bean id="purchaseOrderDao" class="com.bigroi.shop.dao.impl.PurchaseOrderDaoImpl">
+	<bean id="lotDao" class="com.morozov.auction.dao.impl.LotDaoImpl">
 		<property name="npJdbcTemplate" ref="npJdbcTemplate" />
-	</bean>  -->
-	
-<!--	<bean id="purchaseOrderProductDao" class="com.bigroi.shop.dao.impl.PurchaseOrderProductDaoImpl">
-		<property name="npJdbcTemplate" ref="npJdbcTemplate" />
-	</bean> -->
-	
-<!--  	<bean id="userCredentialsDao" class="com.bigroi.shop.dao.impl.UserCredentialsDaoImpl">		
-	</bean>  -->
-	
-<!--  <bean id="verificationTokenDao" class="com.bigroi.shop.dao.impl.VerificationTokenDaoImpl">		
-	</bean>  -->	
-	
-	
+	</bean>
+
+	 <bean id="lotMemberDao" class="com.morozov.auction.dao.impl.LotMemberDaoImpl"> 
+		<property name="npJdbcTemplate" ref="npJdbcTemplate" /> </bean> 
+
+	<bean id="bidDao" class="com.morozov.auction.dao.impl.BidDaoImpl"> 
+		<property name="npJdbcTemplate" ref="npJdbcTemplate" /> </bean> 
+
+	<bean id="userCredentialsDao" class="com.morozov.auction.dao.impl.UserCredentialsDaoImpl">
+	</bean>
+
+	<!-- <bean id="verificationTokenDao" class="com.bigroi.shop.dao.impl.VerificationTokenDaoImpl"> 
+		</bean> -->
+
+
 </beans>

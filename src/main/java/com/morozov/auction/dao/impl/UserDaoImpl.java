@@ -24,7 +24,7 @@ public class UserDaoImpl implements UserDao {
 		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 			User user = new User();
 			user.setUserId(rs.getInt("USER_ID"));
-			user.setDisplayName("DISPLAY_NAME");
+			user.setDisplayName(rs.getString("DISPLAY_NAME"));
 			user.setFirstName(rs.getString("FIRST_NAME"));
 			user.setLastName(rs.getString("LAST_NAME"));
 			user.setEmail(rs.getString("EMAIL"));
@@ -45,7 +45,7 @@ public class UserDaoImpl implements UserDao {
 		this.npJdbcTemplate = npJdbcTemplate;
 	}
 	
-	private Logger logger = LoggerFactory.getLogger(UserDaoJpaImpl.class);
+	private Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 	
 	@Override
 	public void save(User user) throws Exception {
@@ -53,6 +53,7 @@ public class UserDaoImpl implements UserDao {
 			logger.debug("saving user " + user);
 		}
 			SqlParameterSource params = new MapSqlParameterSource()
+					.addValue("USER_ID", user.getUserId())
 					.addValue("DISPLAY_NAME", user.getDisplayName())
 					.addValue("FIRST_NAME", user.getFirstName())
 					.addValue("LAST_NAME", user.getLastName())
@@ -65,13 +66,15 @@ public class UserDaoImpl implements UserDao {
 			String sql = null;
 			
 			if (user.getUserId() == null) {			
-				sql = "INSERT INTO USER_PROFILE"
+				sql = "INSERT INTO USER_PROFILE "
 						+ "(DISPLAY_NAME, FIRST_NAME, LAST_NAME, EMAIL, PHONE, ADDRESS, CITY, COUNTRY)"
 						+ " VALUES (:DISPLAY_NAME,:FIRST_NAME, :LAST_NAME, :EMAIL, :PHONE, :ADDRESS, :CITY, :COUNTRY)";
+				
 				KeyHolder genKeyHolder = new GeneratedKeyHolder(); 
 				npJdbcTemplate.update(sql, params, genKeyHolder);
 				Number key = genKeyHolder.getKey();
 				user.setUserId( key.intValue() );
+				
 			} else {			
 				sql = "UPDATE USER_PROFILE SET DISPLAY_NAME=:DISPLAY_NAME, FIRST_NAME=:FIRST_NAME,"
 						+ " LAST_NAME=:LAST_NAME, EMAIL=:EMAIL, PHONE=:PHONE,"

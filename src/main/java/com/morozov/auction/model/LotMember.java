@@ -1,30 +1,24 @@
 package com.morozov.auction.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
 
-
-/**
- * The persistent class for the lot_member database table.
- * 
- */
-@Entity
-@Table(name="lot_member")
-@NamedQuery(name="LotMember.findAll", query="SELECT l FROM LotMember l")
 public class LotMember implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Lot lot;
 	
 	private BigDecimal deposit;
-
-	//bi-directional many-to-one association to UserProfile
-	@ManyToOne
-	@JoinColumn(name="MEMBER_ID")
+		
 	private User user;
 
 	public LotMember() {
+	}
+	
+	public LotMember(User user, Lot lot) {
+		this.user = user;
+		this.lot = lot;
+		
 	}
 
 	public BigDecimal getDeposit() {
@@ -48,8 +42,14 @@ public class LotMember implements Serializable {
 		return lot;
 	}
 
-	public void setLotId(Lot lot) {
+	public void setLot(Lot lot) {
 		this.lot = lot;
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("Member for {%s, %s, deposit = %s}",
+				getLot(), getUser(), getDeposit());	
 	}
 
 }

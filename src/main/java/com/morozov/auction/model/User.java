@@ -169,4 +169,12 @@ public class User implements Serializable {
 		this.email = email;
 	}
 
+	@Override
+	public String toString() {
+		return String.format("{User ID: %s, First Name: %s, Last Name: %s, Country: %s, Email: %s, Phone: %s}", 
+				getUserId(), getFirstName(), getLastName(), getCountry(), getEmail(), getPhone());
+	}
+	
+	
+
 }

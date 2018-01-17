@@ -1,29 +1,19 @@
 package com.morozov.auction.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
-
-/**
- * The persistent class for the user_password database table.
- * 
- */
-@Entity
-@Table(name="user_password")
-@NamedQuery(name="UserPassword.findAll", query="SELECT u FROM UserPassword u")
 public class UserPassword implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name="USER_ID")
+	
 	private int userId;
 
 	private String accepted;
 
-	@Column(name="PASSWORD_HASH")
+	
 	private byte[] passwordHash;
 
-	@Column(name="PASSWORD_SALT")
+	
 	private byte[] passwordSalt;
 
 	public UserPassword() {

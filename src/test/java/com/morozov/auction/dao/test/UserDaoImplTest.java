@@ -1,7 +1,6 @@
 package com.morozov.auction.dao.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.List;
 
@@ -16,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.morozov.auction.dao.UserDao;
 //import com.morozov.auction.filters.UserFilter;
 import com.morozov.auction.model.User;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="classpath*:/dao-config.xml")
@@ -41,8 +41,8 @@ public class UserDaoImplTest {
 	@Test	
 	public void testFindById() {
 		try {
-			User user = userDao.findById(20);
-			assertEquals("inconsistent id", 20, user.getUserId().intValue());
+			User user = userDao.findById(41);
+			assertEquals("Inconsistent id ", 41, user.getUserId().intValue(), 0.01);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getMessage());

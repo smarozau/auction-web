@@ -16,22 +16,24 @@ public class Lot implements Serializable {
 
 	@Id
 	@Column(name="LOT_ID")
-	private int lotId;
+	private Integer lotId;
 
 	//bi-directional many-to-one association to Stead
 	@ManyToOne
 	private Stead stead;
+	
+	private Auction auction;
 
 	private List<LotMember> lotMembers;
 
 	public Lot() {
 	}
 
-	public int getLotId() {
+	public Integer getLotId() {
 		return this.lotId;
 	}
 
-	public void setLotId(int lotId) {
+	public void setLotId(Integer lotId) {
 		this.lotId = lotId;
 	}
 
@@ -43,12 +45,26 @@ public class Lot implements Serializable {
 		this.stead = stead;
 	}
 
+	public Auction getAuction() {
+		return auction;
+	}
+
+	public void setAuction(Auction auction) {
+		this.auction = auction;
+	}
+
 	public List<LotMember> getLotMembers() {
 		return this.lotMembers;
 	}
 
 	public void setLotMembers(List<LotMember> lotMembers) {
 		this.lotMembers = lotMembers;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("Lot {id=%d, %s, list of lot's members=%s}",
+				getLotId(), getStead(), getLotMembers());	
 	}
 
 }
