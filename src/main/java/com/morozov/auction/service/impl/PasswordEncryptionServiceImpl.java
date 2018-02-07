@@ -57,7 +57,7 @@ public class PasswordEncryptionServiceImpl implements PasswordEncryptionService 
 	}
 
 	/* (non-Javadoc)
-	 * @see com.bigroi.shop.service.impl.PasswordEncryptionService#generateSalt()
+	 * @see com.morozov.auction.service.impl.PasswordEncryptionService#generateSalt()
 	 */
 	@Override
 	public byte[] generateSalt() throws NoSuchAlgorithmException {

@@ -11,7 +11,7 @@ public class Stead implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private Integer id;
+	private Integer steadId;
 	
 	private User owner;
 
@@ -38,10 +38,10 @@ public class Stead implements Serializable {
 	public Stead() {
 	}
 
-	public Stead(User owner, String steadCountry, String steadRegion, String steadCity, String steadAddress,
+	public Stead(String steadCountry, String steadRegion, String steadCity, String steadAddress,
 			String coordinates, Double size, String description, BigDecimal reservePrice) {
 		super();
-		this.owner = owner;
+		
 		this.steadCountry = steadCountry;
 		this.steadRegion = steadRegion;
 		this.steadCity = steadCity;
@@ -52,12 +52,12 @@ public class Stead implements Serializable {
 		this.reservePrice = reservePrice;
 	}
 
-	public Integer getId() {
-		return this.id;
+	public Integer getSteadId() {
+		return this.steadId;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setSteadId(Integer steadId) {
+		this.steadId = steadId;
 	}
 
 	public User getOwner() {
@@ -151,7 +151,7 @@ public class Stead implements Serializable {
 	@Override
 	public String toString() {
 		return String.format("Stead {id=%d, %s, country=%s, region=%s, city=%s, address=%s, coordinates=%s, size=%s, reserve price=%f}",
-				getId(), getOwner(), getSteadCountry(), getSteadRegion(), getSteadCity(), getSteadAddress(), 
+				getSteadId(), getOwner(), getSteadCountry(), getSteadRegion(), getSteadCity(), getSteadAddress(), 
 				getCoordinates(), getSize(), getReservePrice());	
 	}
 

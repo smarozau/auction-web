@@ -3,15 +3,15 @@
 <jsp:include page="includes/header.jsp" />
 
 <div class="panel panel-primary">
-	<div class="panel-heading">${title}</div>
+	<div class="panel-heading"></div>
 	<div class="panel-body">
 		<table class="table table-striped table-hover">
 			<thead>
 				<tr>
-				    <th>#</th>
-					<th><s:message code="label.startTime"/></th>
-					<th><s:message code="label.finishTime"/></th>
-					<th><s:message code="label.status"/></th>
+					<th>#</th>
+					<th><s:message code="label.startTime" /></th>
+					<th><s:message code="label.finishTime" /></th>
+					<th><s:message code="label.status" /></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -25,6 +25,8 @@
 				</c:forEach>
 			</tbody>
 		</table>
+		<a href="<c:url value="/createAuction"/>" type="button"
+			class="btn btn-primary"><s:message code="label.createAuction" /></a>
 	</div>
 </div>
 <jsp:include page="/pages/includes/footer.jsp" />

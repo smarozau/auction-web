@@ -3,7 +3,7 @@
 <jsp:include page="/pages/includes/header.jsp"/>
 
 <div class="panel panel-primary">
-	<div class="panel-heading">User details</div>
+	<div class="panel-heading"><s:message code="title.userDetails"/></div>
 	<p/>
 	<div class="row">
 		<div class="col-md-8">
@@ -25,6 +25,14 @@
     		</div>
   		</div>
   		<div class="form-group">
+   			<label class="control-label col-sm-2" for="displayName">
+   				<s:message code="label.displayName"/>
+   			</label>
+    		<div class="col-sm-4">
+      			<p class="form-control-static">${user.displayName}</p>
+    		</div>
+  		</div>
+  		<div class="form-group">
    			<label class="control-label col-sm-2" for="email">
 				<s:message code="label.email"/>
 			</label>
@@ -40,12 +48,8 @@
       			<p class="form-control-static">${user.phone}</p>
     		</div>
   		</div>  		
-<!--   		<div class="btn-group"> -->
+  		
 				<input type="submit" value="<s:message code="label.edit"/>" class="btn btn-primary"/>				
-				<button class="btn btn-primary" type="submit" formaction="<c:url value='/orders'/>?userId=${user.userId}">
-					<s:message code="label.orders"/>						
-				</button>				
-<!-- 		</div>		 -->
 	</form>	
 		</div>
 	</div>

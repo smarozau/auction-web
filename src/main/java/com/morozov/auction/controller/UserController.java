@@ -72,4 +72,20 @@ public class UserController {
 		userService.save(user);
 		return "redirect:/user/" + user.getUserId();
 	}
+	
+//	@RequestMapping(path = "/user/{userId}/delete", method = RequestMethod.POST)
+//	public String deleteUser(@Validated User user, BindingResult bindingResult, ModelMap model,
+//			@PathVariable("userId") int userId) throws Exception {
+//		if (user.getUserId() != null && user.getUserId() != userId) {
+//			throw new SecurityException("User ID violation");
+//		}
+//		logger.debug("Deleting user:" + user);
+//		if (bindingResult.hasErrors()) {
+//			LogHelper.logBindingResults(logger, bindingResult);
+//			return "userEdit";
+//		}
+//		userService.delete(user);
+//		return "redirect:/user/" + user.getUserId();
+//	}
+	
 }

@@ -25,8 +25,15 @@ public class Lot implements Serializable {
 	private Auction auction;
 
 	private List<LotMember> lotMembers;
+	
+	private List<Bid> bids;
 
 	public Lot() {
+	}
+
+	public Lot(Auction auction, Stead stead) {
+		this.auction = auction;
+		this.stead = stead;
 	}
 
 	public Integer getLotId() {
@@ -59,6 +66,14 @@ public class Lot implements Serializable {
 
 	public void setLotMembers(List<LotMember> lotMembers) {
 		this.lotMembers = lotMembers;
+	}
+
+	public List<Bid> getBids() {
+		return bids;
+	}
+
+	public void setBids(List<Bid> bids) {
+		this.bids = bids;
 	}
 
 	@Override

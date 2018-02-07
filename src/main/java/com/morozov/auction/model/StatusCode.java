@@ -1,7 +1,6 @@
 package com.morozov.auction.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
 
 public class StatusCode implements Serializable {

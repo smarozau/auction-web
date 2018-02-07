@@ -48,5 +48,9 @@
 	<bean id="userCredentialsService"
 		class="com.morozov.auction.service.impl.UserCredentialsServiceImpl">
 	</bean>
+	
+	<bean id="userRegistrationService"
+		class="com.morozov.auction.service.impl.UserRegistrationServiceImpl">
+	</bean>
 
 </beans>

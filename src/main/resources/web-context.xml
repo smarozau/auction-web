@@ -11,37 +11,40 @@
    http://www.springframework.org/schema/aop
    http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 
-<!-- 	<import resource="classpath:web-security.xml" />  -->
+	<import resource="classpath:web-security.xml" />
 
 	<import resource="classpath:service-config.xml" />
 
 	<import resource="classpath:messages-config.xml" />
 
-	<!-- <import resource="classpath:mail-sender-config.xml" /> -->
+	<import resource="classpath:mail-sender-config.xml" />
 
-	<!-- <import resource="classpath:aop-config.xml" /> -->
-
-	<mvc:annotation-driven />
 	<context:component-scan base-package="com.morozov.auction.controller" />
 	<context:component-scan base-package="com.morozov.auction.exception.handler" />
 
-	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/pages/" />
 		<property name="suffix" value=".jsp" />
 		<property name="exposeContextBeansAsAttributes" value="true" />
 	</bean>
 
-	<!-- <mvc:view-resolvers> -->
-	<!-- </mvc:view-resolvers> -->
-
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 
+	<mvc:annotation-driven />
 
+	<bean id="userValidator" class="com.morozov.auction.model.validation.UserValidator" />
 
-	<!-- <bean id="userValidator" class="com.morozov.auction.model.validation.UserValidator" 
-		/> -->
+	<bean id="registrationValidator" class="com.morozov.auction.model.validation.UserRegistrationValidator" />
 
-	<!-- <bean id="registrationValidator" class="com.bigroi.shop.model.validation.UserRegistrationValidator" 
-		/> -->
+	<bean id="steadValidator" class="com.morozov.auction.model.validation.SteadValidator" />
+
+	<bean id="auctionValidator" class="com.morozov.auction.model.validation.AuctionValidator" />
+
+	<bean id="lotMemberValidator" class="com.morozov.auction.model.validation.LotMemberValidator" />
+	
+	<bean id="steadListValidator" class="com.morozov.auction.model.validation.SteadListValidator" />
+	
+	<bean id="bidValidator" class="com.morozov.auction.model.validation.BidValidator" />
 
 </beans>

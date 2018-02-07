@@ -46,9 +46,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User findByEmail(String email) {
+	public User findByEmail(String email) throws Exception {
 		
 		return userDao.findByEmail(email);
+	}
+
+	@Override
+	public User findByDisplayName(String displayName) throws Exception {
+		return userDao.findByDisplayName(displayName);
 	}
 
 }

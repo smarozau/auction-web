@@ -15,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +28,9 @@ import com.morozov.auction.service.UserService;
 @Component
 public class LocalAuthenticationProvider implements AuthenticationProvider {
 	
+	public LocalAuthenticationProvider(){
+		}
+       
 	private Logger logger = LoggerFactory.getLogger(LocalAuthenticationProvider.class);
 	
 	@Autowired
@@ -48,14 +52,16 @@ public class LocalAuthenticationProvider implements AuthenticationProvider {
 		
 		String email = authentication.getName();
 		UserCredentials userCredentials = findUserCredentials(email);
-        
+		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		String role = userCredentials.getRole().replace(" ","_");		      
         authenticate(authentication, userCredentials);
         
         User user = findUser( userCredentials.getUserId() );
         
-        List<GrantedAuthority> authorities = authorizeUser(user);
+        authorities = authorizeUser(role);
         
         return new UsernamePasswordAuthenticationToken(user, authentication.getCredentials(), authorities);
+	    
 	}
 	
 	private UserCredentials findUserCredentials(String email) {
@@ -67,6 +73,7 @@ public class LocalAuthenticationProvider implements AuthenticationProvider {
         	throw new AuthenticationServiceException("Failed to obtain user credentials", e);
         }
         if (userCredentials == null) {
+        	logger.warn("user credentials not found");
     		throw new UsernameNotFoundException("User not found by email");
     	}
 		return userCredentials;
@@ -96,10 +103,12 @@ public class LocalAuthenticationProvider implements AuthenticationProvider {
 		return user;
 	}	
 
-	private List<GrantedAuthority> authorizeUser(User user) {
+	private List<GrantedAuthority> authorizeUser(String role) {
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        authorities.add(new UserRole("USER"));
+        authorities.add(new SimpleGrantedAuthority(role));
 		return authorities;
 	}	
+	
+	
 
 }

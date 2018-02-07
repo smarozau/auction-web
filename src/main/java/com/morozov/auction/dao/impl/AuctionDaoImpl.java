@@ -2,7 +2,9 @@ package com.morozov.auction.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
+import java.sql.Timestamp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,8 +27,8 @@ public class AuctionDaoImpl implements AuctionDao {
 			Auction auction = new Auction();
 			StatusCode statusCode = new StatusCode();
 			auction.setId(rs.getInt("ID"));
-			auction.setStartTime(rs.getDate("START_TIME"));
-			auction.setEndTime(rs.getDate("END_TIME"));
+			auction.setStartTime(new Date(rs.getTimestamp("START_TIME").getTime()));
+			auction.setEndTime(new Date(rs.getTimestamp("END_TIME").getTime()));
 
 			statusCode.setStatusCode(rs.getInt("STAT_CD"));
 			statusCode.setName(rs.getString("NAME"));
@@ -55,17 +57,17 @@ public class AuctionDaoImpl implements AuctionDao {
 			String auctionSql = null;
 //			String lotsSql = null;
 			if (auction.getId() == null) {
-				auctionSql = "INSERT INTO AUCTION(START_TIME, END_TIME, STATUS_CODE) "
-						+ "VALUES (:START_TIME, :END_TIME, :STATUS_CODE)";
+				auctionSql = "INSERT INTO AUCTION(START_TIME, END_TIME) "
+						+ "VALUES (:START_TIME, :END_TIME)";
 			} else {
-				auctionSql = "UPDATE AUCTION SET START_TIME=:START_TIME, END_TIME=:END_TIME, STATUS_CODE=:STATUS_CODE"
+				auctionSql = "UPDATE AUCTION SET START_TIME=:START_TIME, END_TIME=:END_TIME"
 						+ " WHERE ID=:ID";
 			}
 
 			SqlParameterSource params = new MapSqlParameterSource()
-					.addValue("START_TIME", auction.getStartTime())
-					.addValue("END_TIME", auction.getEndTime())
-					.addValue("STATUS_CODE", auction.getStatusCode().getStatusCode());
+					.addValue("START_TIME", new Timestamp(auction.getStartTime().getTime()))
+					.addValue("END_TIME", new Timestamp(auction.getEndTime().getTime()));
+					
 
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 			npJdbcTemplate.update(auctionSql, params, keyHolder);

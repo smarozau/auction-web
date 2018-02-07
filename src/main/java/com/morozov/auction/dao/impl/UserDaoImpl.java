@@ -75,7 +75,7 @@ public class UserDaoImpl implements UserDao {
 				Number key = genKeyHolder.getKey();
 				user.setUserId( key.intValue() );
 				
-			} else {			
+			} else {	
 				sql = "UPDATE USER_PROFILE SET DISPLAY_NAME=:DISPLAY_NAME, FIRST_NAME=:FIRST_NAME,"
 						+ " LAST_NAME=:LAST_NAME, EMAIL=:EMAIL, PHONE=:PHONE,"
 						+ "ADDRESS = :ADDRESS, CITY =:CITY, COUNTRY = :COUNTRY WHERE USER_ID=:USER_ID";
@@ -113,9 +113,21 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public User findByEmail(String email) {
-		String sql = "SELECT U.USER_ID, U.FIRST_NAME, U.LAST_NAME, U.DISPLAY_NAME, U.CRTD_TMS, U.UPTD_TMS,"
+		String sql = "SELECT U.USER_ID, U.FIRST_NAME, U.LAST_NAME, U.DISPLAY_NAME, U.EMAIL, U.CRTD_TMS, U.UPTD_TMS,"
 				+ " U.COUNTRY, U.CITY, U.ADDRESS, U.PHONE FROM USER_PROFILE AS U WHERE U.EMAIL=:EMAIL";
 		   SqlParameterSource params = new MapSqlParameterSource().addValue("EMAIL", email);
+		try {		
+			return npJdbcTemplate.queryForObject(sql, params, new UserRowMapper());
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public User findByDisplayName(String displayName) throws Exception {
+		String sql = "SELECT U.USER_ID, U.FIRST_NAME, U.LAST_NAME, U.DISPLAY_NAME, U.EMAIL, U.CRTD_TMS, U.UPTD_TMS,"
+				+ " U.COUNTRY, U.CITY, U.ADDRESS, U.PHONE FROM USER_PROFILE AS U WHERE U.DISPLAY_NAME=:DISPLAY_NAME";
+		   SqlParameterSource params = new MapSqlParameterSource().addValue("EMAIL", displayName);
 		try {		
 			return npJdbcTemplate.queryForObject(sql, params, new UserRowMapper());
 		} catch (EmptyResultDataAccessException e) {

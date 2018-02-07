@@ -20,9 +20,8 @@ public class Bid implements Serializable {
 	public Bid() {
 	}
 	
-	public Bid(int bidId, LotMember lotMember, BigDecimal bid) {
+	public Bid(LotMember lotMember, BigDecimal bid) {
 		
-		this.bidId = bidId;
 		this.bid = bid;
 		this.lotMember = lotMember;
 		

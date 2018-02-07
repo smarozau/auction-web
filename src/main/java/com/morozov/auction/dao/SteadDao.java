@@ -12,6 +12,8 @@ import com.morozov.auction.model.Stead;
 public interface SteadDao {
 
     public void save(Stead stead) throws Exception;
+    
+    public List<Stead> findAll() throws Exception;
 	
 	public Stead findById(Integer steadId) throws Exception;
 	

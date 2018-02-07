@@ -58,17 +58,18 @@ public class LotMemberDaoImplTest {
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Date start = dateFormat.parse("2017-12-30 12:30:00");
 			Date end = dateFormat.parse("2017-12-30 15:30:00");
-			Auction auction = new Auction(start, end, new StatusCode(1));
+			Auction auction = new Auction(start, end);
 			auctionDao.createAuction(auction);
 			lot.setAuction(auction);
 
 			User user = new User("Test first name", "Test last name", "DislayName", "ul.Nedostoevskogo, 32 - 23",
 					"Mensk", "Belarus", "+375291111111", "test@mail.by");
 			userDao.save(user);
-			Stead stead = new Stead(user, "Беларусь", "Минская обл.", "аг.Семково", "Прибрежная ул., 11",
+			Stead stead = new Stead("Беларусь", "Минская обл.", "аг.Семково", "Прибрежная ул., 11",
 					"54.005075 27.445786", 500.0,
 					"Участок на берегу воды,первая линия,свой пляж.Закрытый район, шлагбаум, 10 мин до центра Проспект Победителей.Все комуникации.Торг только на месте.Построим дом.Есть другие варианты возле воды.",
 					new BigDecimal(90000));
+			stead.setOwner(user);
 			steadDao.save(stead);
 			lot.setStead(stead);
 			lotDao.save(lot);

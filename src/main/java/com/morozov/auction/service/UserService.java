@@ -24,6 +24,8 @@ public interface UserService {
 		
 //		public int countByFilter(UserFilter filter) throws Exception;
 
-		public User findByEmail(String email);
+		public User findByEmail(String email) throws Exception;
+		
+		public User findByDisplayName(String displayName) throws Exception;
 
 	}

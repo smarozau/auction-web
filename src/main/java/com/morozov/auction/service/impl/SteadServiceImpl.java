@@ -77,4 +77,10 @@ private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 		return steadDao.deleteById(steadId);
 	}
 
+	@Override
+	public List<Stead> findAll() throws Exception {
+		
+		return steadDao.findAll();
+	}
+
 }

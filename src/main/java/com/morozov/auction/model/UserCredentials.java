@@ -10,6 +10,8 @@ public class UserCredentials {
 	
 	private byte[] salt;
 	
+	private String role;
+	
 	public UserCredentials() {
 		super();
 	}
@@ -52,6 +54,14 @@ public class UserCredentials {
 
 	public void setSalt(byte[] salt) {
 		this.salt = salt;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 	
 	

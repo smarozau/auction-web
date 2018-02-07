@@ -8,4 +8,6 @@ public interface UserCredentialsDao {
 	
 	public void save(UserCredentials userCredentials) throws Exception;
 
+	public void confirm(int userId) throws Exception;
+
 }

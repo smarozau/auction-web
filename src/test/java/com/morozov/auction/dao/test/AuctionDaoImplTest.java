@@ -36,7 +36,7 @@ public class AuctionDaoImplTest {
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Date start = dateFormat.parse("2017-12-30 12:30:00");
 			Date end = dateFormat.parse("2017-12-30 15:30:00");
-			Auction auction = new Auction(start, end, new StatusCode(1));
+			Auction auction = new Auction(start, end);
 			auctionDao.createAuction(auction);
 			System.out.println("Auction id: " + auction.getId());
 //			assertEquals("Not same dates: ", auction.getStartTime(), start);

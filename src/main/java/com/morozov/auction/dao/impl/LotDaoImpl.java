@@ -41,7 +41,7 @@ public class LotDaoImpl implements LotDao {
 			auction.setStatusCode(statusCode);
 			lot.setAuction(auction);
 			
-			stead.setId(rs.getInt("ID"));
+			stead.setSteadId(rs.getInt("STEAD_ID"));
 			user.setUserId(rs.getInt("USER_ID"));
 			user.setDisplayName(rs.getString("DISPLAY_NAME"));
 			user.setFirstName(rs.getString("FIRST_NAME"));
@@ -85,24 +85,31 @@ public class LotDaoImpl implements LotDao {
 			logger.debug("Saving lot " + lot);
 		}
 		SqlParameterSource params = new MapSqlParameterSource()
-//				.addValue("LOT_ID", lot.getLotId())
+
 				.addValue("AUCTION_ID", lot.getAuction().getId())
-				.addValue("STEAD_ID", lot.getStead().getId());
+				.addValue("STEAD_ID", lot.getStead().getSteadId());
 		
 
 		String sql = null;
+		Auction auction = lot.getAuction();
+		List<Lot> lots  = auction.getLots();
 
 		if (lot.getLotId() == null) {
 			sql = "INSERT INTO LOT "
 					+ "(AUCTION_ID, STEAD_ID)"
 					+ " VALUES (:AUCTION_ID, :STEAD_ID)";
-
+			
 			KeyHolder genKeyHolder = new GeneratedKeyHolder();
 			npJdbcTemplate.update(sql, params, genKeyHolder);
 			Number key = genKeyHolder.getKey();
 			lot.setLotId(key.intValue());
+			lots.add(lot);
 
 		} else {
+			params = new MapSqlParameterSource()
+					.addValue("LOT_ID", lot.getLotId())
+					.addValue("AUCTION_ID", lot.getAuction().getId())
+					.addValue("STEAD_ID", lot.getStead().getSteadId());
 			sql = "UPDATE LOT SET AUCTION_ID=:AUCTION_ID, STEAD_ID=:STEAD_ID WHERE LOT_ID=:LOT_ID";
 			npJdbcTemplate.update(sql, params);
 		}
@@ -111,9 +118,9 @@ public class LotDaoImpl implements LotDao {
 	@Override
 	public Lot findById(Integer lotId) throws Exception {
 		String sql = "SELECT L.LOT_ID, U.USER_ID, U.FIRST_NAME, U.LAST_NAME, U.DISPLAY_NAME, U.EMAIL, U.CRTD_TMS, U.UPTD_TMS,"
-				+ " U.COUNTRY, U.CITY, U.ADDRESS, U.PHONE, S.ID, S.STEAD_COUNTRY, S.STEAD_REGION, S.STEAD_CITY, "
+				+ " U.COUNTRY, U.CITY, U.ADDRESS, U.PHONE, S.STEAD_ID, S.STEAD_COUNTRY, S.STEAD_REGION, S.STEAD_CITY, "
 				+ "S.STEAD_ADDRESS, S.COORDINATES, S.SIZE, S.DESCRIPTION, S.RESERVE_PRICE, S.STEAD_CRTD_TMS, S.STEAD_UPTD_TMS, "
-				+ "A.ID, A.START_TIME, A.END_TIME, SC.STAT_CD, SC.NAME FROM ((((LOT AS L INNER JOIN STEAD AS S ON L.STEAD_ID=S.ID)"
+				+ "A.ID, A.START_TIME, A.END_TIME, SC.STAT_CD, SC.NAME FROM ((((LOT AS L INNER JOIN STEAD AS S ON L.STEAD_ID=S.STEAD_ID)"
 				+ " INNER JOIN USER_PROFILE AS U ON S.OWNER_ID=U.USER_ID)"
 				+ "INNER JOIN AUCTION AS A ON L.AUCTION_ID=A.ID) INNER JOIN STAT_CD_REF AS SC ON A.STATUS_CODE=SC.STAT_CD) "
 				+ "WHERE L.LOT_ID=:LOT_ID";
@@ -124,9 +131,9 @@ public class LotDaoImpl implements LotDao {
 	@Override
 	public List<Lot> findLotsByUserId(Integer userId) throws Exception {
 		String sql = "SELECT L.LOT_ID, U.USER_ID, U.FIRST_NAME, U.LAST_NAME, U.DISPLAY_NAME, U.EMAIL, U.CRTD_TMS, U.UPTD_TMS,"
-				+ " U.COUNTRY, U.CITY, U.ADDRESS, U.PHONE, S.ID, S.STEAD_COUNTRY, S.STEAD_REGION, S.STEAD_CITY, "
+				+ " U.COUNTRY, U.CITY, U.ADDRESS, U.PHONE, S.STEAD_ID, S.STEAD_COUNTRY, S.STEAD_REGION, S.STEAD_CITY, "
 				+ "S.STEAD_ADDRESS, S.COORDINATES, S.SIZE, S.DESCRIPTION, S.RESERVE_PRICE, S.STEAD_CRTD_TMS, S.STEAD_UPTD_TMS, "
-				+ "A.ID, A.START_TIME, A.END_TIME, SC.STAT_CD, SC.NAME FROM ((((LOT AS L INNER JOIN STEAD AS S ON L.STEAD_ID=S.ID)"
+				+ "A.ID, A.START_TIME, A.END_TIME, SC.STAT_CD, SC.NAME FROM ((((LOT AS L INNER JOIN STEAD AS S ON L.STEAD_ID=S.STEAD_ID)"
 				+ " INNER JOIN USER_PROFILE AS U ON S.OWNER_ID=U.USER_ID)"
 				+ "INNER JOIN AUCTION AS A ON L.AUCTION_ID=A.ID) INNER JOIN STAT_CD_REF AS SC ON A.STATUS_CODE=SC.STAT_CD) "
 				+ "WHERE U.USER_ID=:USER_ID";
@@ -137,9 +144,9 @@ public class LotDaoImpl implements LotDao {
 	@Override
 	public List<Lot> findByAuctionId(Integer auctionId) throws Exception {
 		String sql = "SELECT L.LOT_ID, U.USER_ID, U.FIRST_NAME, U.LAST_NAME, U.DISPLAY_NAME, U.EMAIL, U.CRTD_TMS, U.UPTD_TMS,"
-				+ " U.COUNTRY, U.CITY, U.ADDRESS, U.PHONE, S.ID, S.STEAD_COUNTRY, S.STEAD_REGION, S.STEAD_CITY, "
+				+ " U.COUNTRY, U.CITY, U.ADDRESS, U.PHONE, S.STEAD_ID, S.STEAD_COUNTRY, S.STEAD_REGION, S.STEAD_CITY, "
 				+ "S.STEAD_ADDRESS, S.COORDINATES, S.SIZE, S.DESCRIPTION, S.RESERVE_PRICE, S.STEAD_CRTD_TMS, S.STEAD_UPTD_TMS, "
-				+ "A.ID, A.START_TIME, A.END_TIME, SC.STAT_CD, SC.NAME FROM ((((LOT AS L INNER JOIN STEAD AS S ON L.STEAD_ID=S.ID)"
+				+ "A.ID, A.START_TIME, A.END_TIME, SC.STAT_CD, SC.NAME FROM ((((LOT AS L INNER JOIN STEAD AS S ON L.STEAD_ID=S.STEAD_ID)"
 				+ " INNER JOIN USER_PROFILE AS U ON S.OWNER_ID=U.USER_ID)"
 				+ "INNER JOIN AUCTION AS A ON L.AUCTION_ID=A.ID) INNER JOIN STAT_CD_REF AS SC ON A.STATUS_CODE=SC.STAT_CD) "
 				+ "WHERE A.ID=:AUCTION_ID";
@@ -161,6 +168,21 @@ public class LotDaoImpl implements LotDao {
 		npJdbcTemplate.update(sql, params);
 		result = true;
 		return result;
+	}
+
+	@Override
+	public List<Lot> findByAuctionIdAndStatusCode(Integer auctionId, Integer statusCode) throws Exception {
+		String sql = "SELECT L.LOT_ID, U.USER_ID, U.FIRST_NAME, U.LAST_NAME, U.DISPLAY_NAME, U.EMAIL, U.CRTD_TMS, U.UPTD_TMS,"
+				+ " U.COUNTRY, U.CITY, U.ADDRESS, U.PHONE, S.STEAD_ID, S.STEAD_COUNTRY, S.STEAD_REGION, S.STEAD_CITY, "
+				+ "S.STEAD_ADDRESS, S.COORDINATES, S.SIZE, S.DESCRIPTION, S.RESERVE_PRICE, S.STEAD_CRTD_TMS, S.STEAD_UPTD_TMS, "
+				+ "A.ID, A.START_TIME, A.END_TIME, SC.STAT_CD, SC.NAME FROM ((((LOT AS L INNER JOIN STEAD AS S ON L.STEAD_ID=S.STEAD_ID)"
+				+ " INNER JOIN USER_PROFILE AS U ON S.OWNER_ID=U.USER_ID)"
+				+ "INNER JOIN AUCTION AS A ON L.AUCTION_ID=A.ID) INNER JOIN STAT_CD_REF AS SC ON A.STATUS_CODE=SC.STAT_CD) "
+				+ "WHERE A.ID=:AUCTION_ID AND A.STATUS_CODE=:STATUS_CODE";
+		SqlParameterSource params = new MapSqlParameterSource()
+				.addValue("AUCTION_ID", auctionId)
+				.addValue("STATUS_CODE", statusCode);
+		return npJdbcTemplate.query(sql, params, new LotRowMapper());
 	}
 
 }

@@ -12,12 +12,14 @@ import com.morozov.auction.model.Stead;
 public interface SteadService {
 
     public void save(Stead stead) throws Exception;
+    
+    public List<Stead> findAll() throws Exception;
 	
 	public Stead findById(Integer steadId) throws Exception;
 	
-	public List<Stead> findByCountry (String country) throws Exception;
+	public List<Stead> findByCountry(String country) throws Exception;
 	
-	public List<Stead> findByRegion (String region) throws Exception;
+	public List<Stead> findByRegion(String region) throws Exception;
 	
 	public List<Stead> findByUserId(Integer userId) throws Exception;
 	

@@ -2,6 +2,7 @@ package com.morozov.auction.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -57,7 +58,7 @@ public class BidDaoImpl implements BidDao {
 		auction.setStatusCode(statusCode);
 		lot.setAuction(auction);
 
-		stead.setId(rs.getInt("ID"));
+		stead.setSteadId(rs.getInt("STEAD_ID"));
 		stead.setOwner(user);
 		stead.setSteadCountry(rs.getString("STEAD_COUNTRY"));
 		stead.setSteadRegion(rs.getString("STEAD_REGION"));
@@ -94,16 +95,17 @@ public class BidDaoImpl implements BidDao {
 		if (logger.isDebugEnabled()) {
 			logger.debug("Saving bid " + bid);
 		}
+	
 		SqlParameterSource params = new MapSqlParameterSource()
-				.addValue("BID_ID", bid.getBidId())
 				.addValue("BIDDER_ID", bid.getLotMember().getUser().getUserId())
 				.addValue("LOT_ID", bid.getLotMember().getLot().getLotId())
 				.addValue("BID", bid.getBid());
 		
 		String sql = "INSERT INTO BID "
-				+ "(BID_ID, BIDDER_ID, LOT_ID, BID)"
-				+ " VALUES (:BID_ID, :BIDDER_ID, :LOT_ID, :BID)";
+				+ "(BIDDER_ID, LOT_ID, BID)"
+				+ " VALUES (:BIDDER_ID, :LOT_ID, :BID)";
 		npJdbcTemplate.update(sql, params);
+	
 	}
 
 	
@@ -111,10 +113,10 @@ public class BidDaoImpl implements BidDao {
 	@Override
 	public List<Bid> findBidsByLotId(Integer lotId) throws Exception {
 		String sql = "SELECT B.BID_ID, B.LOT_ID, B.BID, U.USER_ID, U.FIRST_NAME, U.LAST_NAME, U.DISPLAY_NAME, U.EMAIL, U.CRTD_TMS, U.UPTD_TMS,"
-				+ " U.COUNTRY, U.CITY, U.ADDRESS, U.PHONE, S.ID, S.STEAD_COUNTRY, S.STEAD_REGION, S.STEAD_CITY, "
+				+ " U.COUNTRY, U.CITY, U.ADDRESS, U.PHONE, S.STEAD_ID, S.STEAD_COUNTRY, S.STEAD_REGION, S.STEAD_CITY, "
 				+ "S.STEAD_ADDRESS, S.COORDINATES, S.SIZE, S.DESCRIPTION, S.RESERVE_PRICE, S.STEAD_CRTD_TMS, S.STEAD_UPTD_TMS, "
 				+ "A.ID, A.START_TIME, A.END_TIME, SC.STAT_CD, SC.NAME FROM (((((BID AS B INNER JOIN LOT AS L ON B.LOT_ID=L.LOT_ID)"
-				+ " INNER JOIN STEAD AS S ON L.STEAD_ID=S.ID)"
+				+ " INNER JOIN STEAD AS S ON L.STEAD_ID=S.STEAD_ID)"
 				+ " INNER JOIN USER_PROFILE AS U ON S.OWNER_ID=U.USER_ID)"
 				+ "INNER JOIN AUCTION AS A ON L.AUCTION_ID=A.ID) INNER JOIN STAT_CD_REF AS SC ON A.STATUS_CODE=SC.STAT_CD) "
 				+ "WHERE L.LOT_ID=:LOT_ID";
@@ -125,10 +127,10 @@ public class BidDaoImpl implements BidDao {
 	@Override
 	public Bid findMaxBidForLot(Integer lotId) throws Exception {
 		String sql = "SELECT B.BID_ID, B.LOT_ID, B.BID, U.USER_ID, U.FIRST_NAME, U.LAST_NAME, U.DISPLAY_NAME, U.EMAIL, U.CRTD_TMS, U.UPTD_TMS,"
-				+ " U.COUNTRY, U.CITY, U.ADDRESS, U.PHONE, S.ID, S.STEAD_COUNTRY, S.STEAD_REGION, S.STEAD_CITY, "
+				+ " U.COUNTRY, U.CITY, U.ADDRESS, U.PHONE, S.STEAD_ID, S.STEAD_COUNTRY, S.STEAD_REGION, S.STEAD_CITY, "
 				+ "S.STEAD_ADDRESS, S.COORDINATES, S.SIZE, S.DESCRIPTION, S.RESERVE_PRICE, S.STEAD_CRTD_TMS, S.STEAD_UPTD_TMS, "
 				+ "A.ID, A.START_TIME, A.END_TIME, SC.STAT_CD, SC.NAME FROM (((((BID AS B INNER JOIN LOT AS L ON B.LOT_ID=L.LOT_ID)"
-				+ " INNER JOIN STEAD AS S ON L.STEAD_ID=S.ID)"
+				+ " INNER JOIN STEAD AS S ON L.STEAD_ID=S.STEAD_ID)"
 				+ " INNER JOIN USER_PROFILE AS U ON S.OWNER_ID=U.USER_ID)"
 				+ "INNER JOIN AUCTION AS A ON L.AUCTION_ID=A.ID) INNER JOIN STAT_CD_REF AS SC ON A.STATUS_CODE=SC.STAT_CD) "
 				+ "WHERE L.LOT_ID=:LOT_ID ORDER BY B.BID DESC LIMIT 1";

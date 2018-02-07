@@ -4,7 +4,7 @@
 
 <jsp:include page="/pages/includes/header.jsp"/>
 <div class="panel panel-primary">
-	<div class="panel-heading">Edit user details</div>
+	<div class="panel-heading"><s:message code="label.editUser"/></div>
 	<p/>
 	<div class="row">
 		<div class="col-md-8">
@@ -40,13 +40,61 @@
 		</div>
 		</s:bind>
 		
-		<s:bind path="user.email">
+		<s:bind path="user.displayName">
 		<div class="form-group ${status.error ? 'has-error has-feedback' : ''}">
-			<label class="col-sm-2 control-label" for="email"><s:message code="label.email"/></label>			
+			<label class="col-sm-2 control-label" for="dispalyName"><s:message code="label.displayName"/></label>			
 			<div class="col-sm-4">				
-				<input type="text" name="email" value="${user.email}" class="form-control">
+				<input type="text" name="displayName" value="${user.displayName}" class="form-control">
 				<c:if test="${status.error}">
 					<span class="glyphicon glyphicon-remove form-control-feedback"></span>					
+				</c:if>
+			</div>
+		</div>
+		</s:bind>
+		
+		<s:bind path="user.country">
+		<div class="form-group ${status.error ? 'has-error has-feedback' : ''}">
+			<label class="col-sm-2 control-label" for="country"><s:message code="label.country"/></label>
+			<div class="col-sm-4">
+				<input type="text" name="country" value="${user.country}" class="form-control">
+				<c:if test="${status.error}">
+					<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+				</c:if>
+			</div>
+		</div>
+		</s:bind>
+		
+		<s:bind path="user.city">
+		<div class="form-group ${status.error ? 'has-error has-feedback' : ''}">
+			<label class="col-sm-2 control-label" for="city"><s:message code="label.city"/></label>
+			<div class="col-sm-4">
+				<input type="text" name="city" value="${user.city}" class="form-control">
+				<c:if test="${status.error}">
+					<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+				</c:if>
+			</div>
+		</div>
+		</s:bind>
+		
+		<s:bind path="user.address">
+		<div class="form-group ${status.error ? 'has-error has-feedback' : ''}">
+			<label class="col-sm-2 control-label" for="address"><s:message code="label.address"/></label>
+			<div class="col-sm-4">
+				<input type="text" name="address" value="${user.address}" class="form-control">
+				<c:if test="${status.error}">
+					<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+				</c:if>
+			</div>
+		</div>
+		</s:bind>
+		
+		<s:bind path="user.email">
+		<div class="form-group ${status.error ? 'has-error has-feedback' : ''}">
+			<label class="col-sm-2 control-label" for="country"><s:message code="label.email"/></label>
+			<div class="col-sm-4">
+				<input type="text" name="email" value="${user.email}" class="form-control">
+				<c:if test="${status.error}">
+					<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 				</c:if>
 			</div>
 		</div>
@@ -59,21 +107,16 @@
 				<input type="text" name="phone" value="${user.phone}" class="form-control">
 				<c:if test="${status.error}">
 					<span class="glyphicon glyphicon-remove form-control-feedback"></span>
-					<span class="help-block">
-						<sf:errors path="user.phone"/>
-					</span>
 				</c:if>
 			</div>
 		</div>
 		</s:bind>
 		
-		<input type="hidden" name="id" value="${user.id}"/>
+		<input type="hidden" name="userId" value="${user.userId}"/>
 		
 		<div class="btn-group">
-<!-- 			<div class="col-sm-4"> -->
 				<input type="submit" value="<s:message code='label.save'/>" class="btn btn-primary"/>
-<!-- 			</div> -->
-		</div>
+        </div>
 		<p/>
 	</form>
 		</div>

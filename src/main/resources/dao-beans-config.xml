@@ -39,8 +39,8 @@
 	<bean id="userCredentialsDao" class="com.morozov.auction.dao.impl.UserCredentialsDaoImpl">
 	</bean>
 
-	<!-- <bean id="verificationTokenDao" class="com.bigroi.shop.dao.impl.VerificationTokenDaoImpl"> 
-		</bean> -->
+	<bean id="verificationTokenDao" class="com.morozov.auction.dao.impl.VerificationTokenDaoImpl"> 
+		</bean>
 
 
 </beans>

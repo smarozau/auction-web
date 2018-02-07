@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 
 public class Auction implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -13,8 +15,10 @@ public class Auction implements Serializable {
 	
 	private Integer id;
 	
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private Date endTime;
-
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private Date startTime;
 
 	private StatusCode statusCode;
@@ -24,11 +28,10 @@ public class Auction implements Serializable {
 	public Auction() {
 	}
 	
-	public Auction(Date endTime, Date startTime, StatusCode statusCode) {
+	public Auction(Date endTime, Date startTime) {
 		
 		this.endTime = endTime;
 		this.startTime = startTime;
-		this.statusCode = statusCode;
 	}
 
 

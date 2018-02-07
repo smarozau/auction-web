@@ -57,4 +57,10 @@ private Logger logger = LoggerFactory.getLogger(LotServiceImpl.class);
 		return lotDao.findLotsByUserId(userId);
 	}
 
+	@Override
+	public List<Lot> findByAuctionIdAndStatusCode(Integer auctionId, Integer statusCode) throws Exception {
+		
+		return lotDao.findByAuctionIdAndStatusCode(auctionId, statusCode);
+	}
+
 }

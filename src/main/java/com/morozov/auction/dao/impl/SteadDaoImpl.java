@@ -17,7 +17,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import com.morozov.auction.dao.SteadDao;
-
+import com.morozov.auction.dao.impl.UserDaoImpl.UserRowMapper;
 import com.morozov.auction.model.Stead;
 import com.morozov.auction.model.User;
 
@@ -27,7 +27,7 @@ public class SteadDaoImpl implements SteadDao {
 		public Stead mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Stead stead = new Stead();
 			User user = new User();
-			stead.setId(rs.getInt("ID"));
+			stead.setSteadId(rs.getInt("STEAD_ID"));
 
 			user.setUserId(rs.getInt("USER_ID"));
 			user.setDisplayName(rs.getString("DISPLAY_NAME"));
@@ -84,7 +84,7 @@ public class SteadDaoImpl implements SteadDao {
 
 		String sql = null;
 
-		if (stead.getId() == null) {
+		if (stead.getSteadId() == null) {
 			sql = "INSERT INTO STEAD "
 					+ "(OWNER_ID, STEAD_COUNTRY, STEAD_REGION, STEAD_CITY, STEAD_ADDRESS, COORDINATES, SIZE, DESCRIPTION, "
 					+ "RESERVE_PRICE) VALUES (:OWNER_ID,:STEAD_COUNTRY, :STEAD_REGION, :STEAD_CITY, :STEAD_ADDRESS, :COORDINATES,"
@@ -93,23 +93,34 @@ public class SteadDaoImpl implements SteadDao {
 			KeyHolder genKeyHolder = new GeneratedKeyHolder();
 			npJdbcTemplate.update(sql, params, genKeyHolder);
 			Number key = genKeyHolder.getKey();
-			stead.setId(key.intValue());
+			stead.setSteadId(key.intValue());
 
 		} else {
+			params = new MapSqlParameterSource()
+					.addValue("OWNER_ID", stead.getOwner().getUserId())
+					.addValue("STEAD_COUNTRY", stead.getSteadCountry())
+					.addValue("STEAD_REGION", stead.getSteadRegion())
+					.addValue("STEAD_CITY", stead.getSteadCity())
+					.addValue("STEAD_ADDRESS", stead.getSteadAddress())
+					.addValue("COORDINATES", stead.getCoordinates())
+					.addValue("SIZE", stead.getSize())
+					.addValue("DESCRIPTION", stead.getDescription())
+					.addValue("RESERVE_PRICE", stead.getReservePrice())
+					.addValue("STEAD_ID", stead.getSteadId());
 			sql = "UPDATE STEAD SET OWNER_ID=:OWNER_ID, STEAD_COUNTRY=:STEAD_COUNTRY, STEAD_REGION=:STEAD_REGION,"
 					+ " STEAD_CITY=:STEAD_CITY, STEAD_ADDRESS=:STEAD_ADDRESS, COORDINATES=:COORDINATES,"
-					+ "SIZE = :SIZE, DESCRIPTION = :DESCRIPTION, RESERVE_PRICE =:RESERVE_PRICE WHERE ID=:ID";
+					+ "SIZE = :SIZE, DESCRIPTION = :DESCRIPTION, RESERVE_PRICE =:RESERVE_PRICE WHERE STEAD_ID=:STEAD_ID";
 			npJdbcTemplate.update(sql, params);
 		}
 	}
 
 	@Override
 	public Stead findById(Integer steadId) throws Exception {
-		String sql = "SELECT S.ID, U.USER_ID, U.FIRST_NAME, U.LAST_NAME, U.DISPLAY_NAME, U.EMAIL, U.CRTD_TMS, U.UPTD_TMS,"
+		String sql = "SELECT S.STEAD_ID, U.USER_ID, U.FIRST_NAME, U.LAST_NAME, U.DISPLAY_NAME, U.EMAIL, U.CRTD_TMS, U.UPTD_TMS,"
 				+ " U.COUNTRY, U.CITY, U.ADDRESS, U.PHONE, S.STEAD_COUNTRY, S.STEAD_REGION, S.STEAD_CITY, "
 				+ "S.STEAD_ADDRESS, S.COORDINATES, S.SIZE, S.DESCRIPTION, S.RESERVE_PRICE, S.STEAD_CRTD_TMS, S.STEAD_UPTD_TMS "
-				+ "FROM STEAD AS S INNER JOIN USER_PROFILE AS U ON S.OWNER_ID=U.USER_ID WHERE S.ID=:ID";
-		SqlParameterSource params = new MapSqlParameterSource().addValue("ID", steadId);
+				+ "FROM STEAD AS S INNER JOIN USER_PROFILE AS U ON S.OWNER_ID=U.USER_ID WHERE S.STEAD_ID=:STEAD_ID";
+		SqlParameterSource params = new MapSqlParameterSource().addValue("STEAD_ID", steadId);
 		try {
 			return npJdbcTemplate.queryForObject(sql, params, new SteadRowMapper());
 		} catch (EmptyResultDataAccessException e) {
@@ -119,7 +130,7 @@ public class SteadDaoImpl implements SteadDao {
 
 	@Override
 	public List<Stead> findByCountry(String country) throws Exception {
-		String sql = "SELECT S.ID, U.USER_ID, U.FIRST_NAME, U.LAST_NAME, U.DISPLAY_NAME, U.EMAIL, U.CRTD_TMS, U.UPTD_TMS,"
+		String sql = "SELECT S.STEAD_ID, U.USER_ID, U.FIRST_NAME, U.LAST_NAME, U.DISPLAY_NAME, U.EMAIL, U.CRTD_TMS, U.UPTD_TMS,"
 				+ "  U.COUNTRY, U.CITY, U.ADDRESS, U.PHONE, S.STEAD_COUNTRY, S.STEAD_REGION, S.STEAD_CITY, "
 				+ "S.STEAD_ADDRESS, S.COORDINATES, S.SIZE, S.DESCRIPTION, S.RESERVE_PRICE, S.STEAD_CRTD_TMS, S.STEAD_UPTD_TMS "
 				+ "FROM STEAD AS S INNER JOIN USER_PROFILE AS U ON S.OWNER_ID = U.USER_ID WHERE S.STEAD_COUNTRY=:STEAD_COUNTRY";
@@ -133,7 +144,7 @@ public class SteadDaoImpl implements SteadDao {
 	
 	@Override
 	public List<Stead> findByRegion(String region) throws Exception {
-		String sql = "SELECT S.ID, U.USER_ID, U.FIRST_NAME, U.LAST_NAME, U.DISPLAY_NAME, U.EMAIL, U.CRTD_TMS, U.UPTD_TMS,"
+		String sql = "SELECT S.STEAD_ID, U.USER_ID, U.FIRST_NAME, U.LAST_NAME, U.DISPLAY_NAME, U.EMAIL, U.CRTD_TMS, U.UPTD_TMS,"
 				+ "  U.COUNTRY, U.CITY, U.ADDRESS, U.PHONE, U.CRTD_TMS, S.STEAD_COUNTRY, S.STEAD_REGION, S.STEAD_CITY, "
 				+ "S.STEAD_ADDRESS, S.COORDINATES, S.SIZE, S.DESCRIPTION, S.RESERVE_PRICE, S.STEAD_CRTD_TMS, S.STEAD_UPTD_TMS "
 				+ "FROM STEAD AS S INNER JOIN USER_PROFILE AS U ON S.OWNER_ID=U.USER_ID WHERE S.STEAD_REGION=:STEAD_REGION";
@@ -147,7 +158,7 @@ public class SteadDaoImpl implements SteadDao {
 
 	@Override
 	public List<Stead> findByUserId(Integer userId) throws Exception {
-		String sql = "SELECT S.ID, U.USER_ID, U.FIRST_NAME, U.LAST_NAME, U.DISPLAY_NAME, U.EMAIL, U.CRTD_TMS, U.UPTD_TMS,"
+		String sql = "SELECT S.STEAD_ID, U.USER_ID, U.FIRST_NAME, U.LAST_NAME, U.DISPLAY_NAME, U.EMAIL, U.CRTD_TMS, U.UPTD_TMS,"
 				+ "  U.COUNTRY, U.CITY, U.ADDRESS, U.PHONE, S.STEAD_COUNTRY, S.STEAD_REGION, S.STEAD_CITY, "
 				+ "S.STEAD_ADDRESS, S.COORDINATES, S.SIZE, S.DESCRIPTION, S.RESERVE_PRICE, S.STEAD_CRTD_TMS, S.STEAD_UPTD_TMS "
 				+ "FROM STEAD AS S INNER JOIN USER_PROFILE AS U ON S.OWNER_ID=U.USER_ID WHERE S.OWNER_ID=:OWNER_ID";
@@ -162,7 +173,7 @@ public class SteadDaoImpl implements SteadDao {
 
 	@Override
 	public List<Stead> findByCity(String city) throws Exception {
-		String sql = "SELECT S.ID, U.USER_ID, U.FIRST_NAME, U.LAST_NAME, U.DISPLAY_NAME, U.EMAIL, U.CRTD_TMS, U.UPTD_TMS,"
+		String sql = "SELECT S.STEAD_ID, U.USER_ID, U.FIRST_NAME, U.LAST_NAME, U.DISPLAY_NAME, U.EMAIL, U.CRTD_TMS, U.UPTD_TMS,"
 				+ "  U.COUNTRY, U.CITY, U.ADDRESS, U.PHONE, S.STEAD_COUNTRY, S.STEAD_REGION, S.STEAD_CITY, "
 				+ "S.STEAD_ADDRESS, S.COORDINATES, S.SIZE, S.DESCRIPTION, S.RESERVE_PRICE, S.STEAD_CRTD_TMS, S.STEAD_UPTD_TMS "
 				+ "FROM STEAD AS S INNER JOIN USER_PROFILE AS U ON S.OWNER_ID=U.USER_ID WHERE S.STEAD_CITY=:STEAD_CITY";
@@ -176,7 +187,7 @@ public class SteadDaoImpl implements SteadDao {
 
 	@Override
 	public List<Stead> findByReservePrice(BigDecimal reservePrice) {
-		String sql = "SELECT S.ID, U.USER_ID, U.FIRST_NAME, U.LAST_NAME, U.DISPLAY_NAME, U.EMAIL, U.CRTD_TMS, U.UPTD_TMS,"
+		String sql = "SELECT S.STEAD_ID, U.USER_ID, U.FIRST_NAME, U.LAST_NAME, U.DISPLAY_NAME, U.EMAIL, U.CRTD_TMS, U.UPTD_TMS,"
 				+ "  U.COUNTRY, U.CITY, U.ADDRESS, U.PHONE, S.STEAD_COUNTRY, S.STEAD_REGION, S.STEAD_CITY, "
 				+ "S.STEAD_ADDRESS, S.COORDINATES, S.SIZE, S.DESCRIPTION, S.RESERVE_PRICE, S.STEAD_CRTD_TMS, S.STEAD_UPTD_TMS "
 				+ "FROM STEAD AS S INNER JOIN USER_PROFILE AS U ON S.OWNER_ID=U.USER_ID WHERE S.RESERVE_PRICE<=:RESERVE_PRICE";
@@ -197,11 +208,20 @@ public class SteadDaoImpl implements SteadDao {
 	@Override
 	public boolean deleteById(Integer steadId) throws Exception {
 		boolean result = false;
-		String sql = "DELETE FROM STEAD WHERE ID=:ID";
-		SqlParameterSource params = new MapSqlParameterSource().addValue("ID", steadId);
+		String sql = "DELETE FROM STEAD WHERE STEAD_ID=:ID";
+		SqlParameterSource params = new MapSqlParameterSource().addValue("STEAD_ID", steadId);
 		npJdbcTemplate.update(sql, params);
 		result = true;
 		return result;
+	}
+
+	@Override
+	public List<Stead> findAll() throws Exception {
+		String sql = "SELECT S.STEAD_ID, U.USER_ID, U.FIRST_NAME, U.LAST_NAME, U.DISPLAY_NAME, U.EMAIL, U.CRTD_TMS, U.UPTD_TMS,"
+				+ "  U.COUNTRY, U.CITY, U.ADDRESS, U.PHONE, S.STEAD_COUNTRY, S.STEAD_REGION, S.STEAD_CITY, "
+				+ "S.STEAD_ADDRESS, S.COORDINATES, S.SIZE, S.DESCRIPTION, S.RESERVE_PRICE, S.STEAD_CRTD_TMS, S.STEAD_UPTD_TMS "
+				+ "FROM STEAD AS S INNER JOIN USER_PROFILE AS U ON S.OWNER_ID=U.USER_ID";
+		return npJdbcTemplate.query(sql, new SteadRowMapper());
 	}
 
 }

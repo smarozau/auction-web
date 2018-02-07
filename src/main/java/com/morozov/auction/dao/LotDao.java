@@ -19,6 +19,8 @@ public void save(Lot lot) throws Exception;
 	
 	public List<Lot> findByAuctionId(Integer auctionId) throws Exception;
 	
+	public List<Lot> findByAuctionIdAndStatusCode(Integer auctionId, Integer statusCode) throws Exception;
+	
 	public int countAll() throws Exception;
 	
 	public boolean deleteById (Integer lotId) throws Exception;

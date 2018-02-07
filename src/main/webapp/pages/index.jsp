@@ -1,15 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="b" tagdir="/WEB-INF/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Добро пожаловать на Auction Web!</title>
+<title>Welcome to Auction Web!</title>
 <!-- Bootstrap core CSS -->
     <link href="<c:url value="/pages/css/bootstrap.css" />" rel="stylesheet">
  
@@ -35,30 +33,22 @@
 </head>
 
 <body>
+		
 	<div class="container">
 		<div class="jumbotron text-center" style="margin-top: 20px;">
 			<h1>Auction Web</h1>
-			<p class="lead">Лучший аукцион земельных участков!</p>
+			<p class="lead">The best service for buying steads around Belarus!</p>
 
-			<sec:authorize access="!isAuthenticated()">
+			
 				<p>
 					<a class="btn btn-lg btn-success" href="<c:url value="/login" />"
-						role="button">Войти</a>
+						role="button">Enter</a>
 				</p>
-			</sec:authorize>
-			<sec:authorize access="isAuthenticated()">
-				<p>
-					Ваш логин:
-					<sec:authentication property="principal.username" />
-				</p>
-				<p>
-					<a class="btn btn-lg btn-danger" href="<c:url value="/logout" />"
-						role="button">Выйти</a>
-				</p>
-			</sec:authorize>
+			
+			
 		</div>
 		<div class="footer">
-			<p>© Auction Web 2017</p>
+			<p>© Auction Web 2017-2018</p>
 		</div>
 
 	</div>
