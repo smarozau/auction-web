@@ -24,14 +24,13 @@
 		<f:input name="coordinates" value="${stead.coordinates}" path="stead.coordinates" type="text" 
 		id="coordinates" labelCode="label.coordinates"/>
 		
-		<s:bind path="${stead.size}">
+		<s:bind path="stead.size">
 	<div class="form-group ${status.error ? 'has-error has-feedback' : ''}">
 		<label class="col-sm-2 control-label" for="size">
 			<s:message code="label.size" />
 		</label>
 		<div class="col-sm-4">
-			<input id="size" type="number" min="0" step="0.1" name="size"
-				value="${stead.size}" class="form-control" />
+			<input id="size" type="number" min="0" step="0.1" name="size" value="${stead.size}" class="form-control" />
 			<c:if test="${status.error}">
 				<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 				<span class="help-block"> <sf:errors path="${stead.size}" />
@@ -56,11 +55,11 @@
 		
 		<s:bind path="stead.reservePrice">
 	<div class="form-group ${status.error ? 'has-error has-feedback' : ''}">
-		<label class="col-sm-2 control-label" for="$reservePrice">
+		<label class="col-sm-2 control-label" for="reservePrice">
 			<s:message code="label.reservePrice" />
 		</label>
 		<div class="col-sm-4">
-			<input id="reservePrice" type="number" min="0" max="1000000000"name="reservePrice" step="0.01"
+			<input id="reservePrice" type="number" min="0" max="1000000000" name="reservePrice" step="0.01"
 				value="${stead.reservePrice}" class="form-control" />
 			<c:if test="${status.error}">
 				<span class="glyphicon glyphicon-remove form-control-feedback"></span>

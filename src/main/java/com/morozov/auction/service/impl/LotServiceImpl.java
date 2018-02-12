@@ -26,6 +26,12 @@ private Logger logger = LoggerFactory.getLogger(LotServiceImpl.class);
 		
 		lotDao.save(lot);
 	}
+	
+	@Override
+	public void saveBatch(List<Lot> lots) throws Exception {
+		lotDao.saveBatch(lots);
+		
+	}
 
 	@Override
 	public Lot findById(Integer lotId) throws Exception {
@@ -58,7 +64,7 @@ private Logger logger = LoggerFactory.getLogger(LotServiceImpl.class);
 	}
 
 	@Override
-	public List<Lot> findByAuctionIdAndStatusCode(Integer auctionId, Integer statusCode) throws Exception {
+	public List<Integer> findByAuctionIdAndStatusCode(Integer auctionId, Integer statusCode) throws Exception {
 		
 		return lotDao.findByAuctionIdAndStatusCode(auctionId, statusCode);
 	}

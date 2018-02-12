@@ -21,6 +21,8 @@ public interface AuctionService {
 		
 		public int countAll() throws Exception;
 		
+		void updateStatusCode(Integer auctionId, Integer statusCode) throws Exception;
+		
 //		public void cancelAuction(Auction auction) throws Exception;
 		
 	}

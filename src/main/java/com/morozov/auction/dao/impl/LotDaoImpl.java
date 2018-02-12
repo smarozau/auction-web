@@ -2,7 +2,9 @@ package com.morozov.auction.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -114,6 +116,26 @@ public class LotDaoImpl implements LotDao {
 			npJdbcTemplate.update(sql, params);
 		}
 		}
+	
+	
+	@Override
+	public void saveBatch(List<Lot> lots) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("Saving lots " + lots);
+		}
+		String sql = "INSERT INTO LOT (AUCTION_ID, STEAD_ID) VALUES (:AUCTION_ID, :STEAD_ID)";
+		List<Map<String, Object>> batchValues = new ArrayList<>(lots.size());
+		for (Lot lot : lots) {
+		    batchValues.add(
+		            new MapSqlParameterSource()
+		                    .addValue("AUCTION_ID", lot.getAuction().getId())
+		                    .addValue("STEAD_ID", lot.getStead().getSteadId())
+		                    .getValues());
+		}
+//		Map <String,Number>[] values = batchValues.toArray(new Map[lots.size()]);
+		npJdbcTemplate.batchUpdate(sql, batchValues.toArray(new Map[lots.size()]));
+		
+	}
 
 	@Override
 	public Lot findById(Integer lotId) throws Exception {
@@ -171,18 +193,13 @@ public class LotDaoImpl implements LotDao {
 	}
 
 	@Override
-	public List<Lot> findByAuctionIdAndStatusCode(Integer auctionId, Integer statusCode) throws Exception {
-		String sql = "SELECT L.LOT_ID, U.USER_ID, U.FIRST_NAME, U.LAST_NAME, U.DISPLAY_NAME, U.EMAIL, U.CRTD_TMS, U.UPTD_TMS,"
-				+ " U.COUNTRY, U.CITY, U.ADDRESS, U.PHONE, S.STEAD_ID, S.STEAD_COUNTRY, S.STEAD_REGION, S.STEAD_CITY, "
-				+ "S.STEAD_ADDRESS, S.COORDINATES, S.SIZE, S.DESCRIPTION, S.RESERVE_PRICE, S.STEAD_CRTD_TMS, S.STEAD_UPTD_TMS, "
-				+ "A.ID, A.START_TIME, A.END_TIME, SC.STAT_CD, SC.NAME FROM ((((LOT AS L INNER JOIN STEAD AS S ON L.STEAD_ID=S.STEAD_ID)"
-				+ " INNER JOIN USER_PROFILE AS U ON S.OWNER_ID=U.USER_ID)"
-				+ "INNER JOIN AUCTION AS A ON L.AUCTION_ID=A.ID) INNER JOIN STAT_CD_REF AS SC ON A.STATUS_CODE=SC.STAT_CD) "
-				+ "WHERE A.ID=:AUCTION_ID AND A.STATUS_CODE=:STATUS_CODE";
+	public List<Integer> findByAuctionIdAndStatusCode(Integer auctionId, Integer statusCode) throws Exception {
+		String sql = "SELECT L.LOT_ID FROM LOT AS L INNER JOIN AUCTION AS A ON L.AUCTION_ID=A.ID "
+				+"WHERE A.ID=36 AND A.STATUS_CODE=3";
 		SqlParameterSource params = new MapSqlParameterSource()
 				.addValue("AUCTION_ID", auctionId)
 				.addValue("STATUS_CODE", statusCode);
-		return npJdbcTemplate.query(sql, params, new LotRowMapper());
+		return npJdbcTemplate.queryForList(sql, params, Integer.class);
 	}
 
 }

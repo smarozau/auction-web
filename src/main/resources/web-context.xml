@@ -21,6 +21,7 @@
 
 	<context:component-scan base-package="com.morozov.auction.controller" />
 	<context:component-scan base-package="com.morozov.auction.exception.handler" />
+	<context:component-scan base-package="com.morozov.auction.scheduler" />
 
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -41,10 +42,6 @@
 
 	<bean id="auctionValidator" class="com.morozov.auction.model.validation.AuctionValidator" />
 
-	<bean id="lotMemberValidator" class="com.morozov.auction.model.validation.LotMemberValidator" />
-	
-	<bean id="steadListValidator" class="com.morozov.auction.model.validation.SteadListValidator" />
-	
 	<bean id="bidValidator" class="com.morozov.auction.model.validation.BidValidator" />
 
 </beans>

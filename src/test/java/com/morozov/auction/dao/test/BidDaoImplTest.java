@@ -110,9 +110,9 @@ public class BidDaoImplTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	public void findMaxBidForLot() {
+	public void findMaxBidForLot() {	
 		try {
-			Bid bid = bidDao.findMaxBidForLot(11);
+			BigDecimal bid = bidDao.findMaxBidForLot(11);
 			System.out.println(bid);
 			
 		} catch (Exception e) {

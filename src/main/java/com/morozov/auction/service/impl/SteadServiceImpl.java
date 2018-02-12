@@ -51,6 +51,12 @@ private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 		
 		return steadDao.findByUserId(userId);
 	}
+	
+	@Override
+	public List<Stead> findAvailableByUserId(Integer userId, Integer auctionId) throws Exception {
+		
+		return steadDao.findAvailableByUserId(userId, auctionId);
+	}
 
 	@Override
 	public List<Stead> findByCity(String city) throws Exception {

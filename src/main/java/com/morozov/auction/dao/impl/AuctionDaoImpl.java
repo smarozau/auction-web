@@ -119,6 +119,19 @@ public class AuctionDaoImpl implements AuctionDao {
 		return npJdbcTemplate.queryForObject(sql, new MapSqlParameterSource(), Integer.class);
 	}
 
+	@Override
+	public void updateStatusCode(Integer auctionId, Integer statusCode) throws Exception {
+		if (logger.isDebugEnabled()) {
+			logger.debug("Changing status auction ID " + auctionId);
+		}
+		String sql = "UPDATE AUCTION SET STATUS_CODE=:STATUS_CODE WHERE ID=:AUCTION_ID";
+		SqlParameterSource params = new MapSqlParameterSource()
+				.addValue("AUCTION_ID", auctionId)
+				.addValue("STATUS_CODE", statusCode);
+		npJdbcTemplate.update(sql, params);
+		
+	}
+
 //	@Override
 //	public void cancelAuction(Auction aucton) throws Exception {
 //		// TODO Auto-generated method stub

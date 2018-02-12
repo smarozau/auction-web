@@ -36,7 +36,7 @@
 		
 	<div class="container">
 		<div class="jumbotron text-center" style="margin-top: 20px;">
-			<h1>Auction Web</h1>
+			<h1 align="center">Auction Web</h1>
 			<p class="lead">The best service for buying steads around Belarus!</p>
 
 			

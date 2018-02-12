@@ -38,6 +38,11 @@ public class Stead implements Serializable {
 	public Stead() {
 	}
 
+	public Stead(Integer steadId) {
+		super();
+		this.steadId = steadId;
+	}
+
 	public Stead(String steadCountry, String steadRegion, String steadCity, String steadAddress,
 			String coordinates, Double size, String description, BigDecimal reservePrice) {
 		super();

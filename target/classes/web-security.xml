@@ -12,8 +12,6 @@
 	<http auto-config="true" use-expressions="true">
 		<!-- <intercept-url pattern="/users/**" access="hasRole('ROLE_ADMIN')" 	/> -->
 		<intercept-url pattern="/user/{userId}/**"	access="@userWebSecurity.canEditProfile(authentication, #userId)" />
-		<intercept-url pattern="/login*" access="isAnonymous()" />
-		<intercept-url pattern="/**" access="isAuthenticated()" />
 		<!-- <intercept-url pattern="/user/{userId}/**" access="isAuthenticated() 
 			and @userWebSecurity.canEditProfile(authentication, #userId)"/> -->
 		<form-login
@@ -36,6 +34,8 @@
 			<!-- </user-service> -->
 		</authentication-provider>
 	</authentication-manager>
+	
+	<global-method-security secured-annotations="enabled" />
 
 	<context:component-scan base-package="com.morozov.auction.web.security" />
 

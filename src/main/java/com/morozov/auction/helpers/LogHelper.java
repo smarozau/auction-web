@@ -8,7 +8,7 @@ public class LogHelper {
 	
 	public static void logBindingResults(Logger logger, BindingResult bindingResult) {
 		if (logger.isDebugEnabled()) {
-			logger.debug("User has errors: " + bindingResult.hasErrors());
+			logger.debug(" has errors: " + bindingResult.hasErrors());
 			for(ObjectError error : bindingResult.getAllErrors()) {
 				logger.debug("Validation error: " + error.getCode() + ", " + error.getDefaultMessage());
 			}

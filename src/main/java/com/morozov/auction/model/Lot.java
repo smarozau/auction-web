@@ -1,25 +1,15 @@
 package com.morozov.auction.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
 
 
-/**
- * The persistent class for the lot database table.
- * 
- */
-@Entity
-@NamedQuery(name="Lot.findAll", query="SELECT l FROM Lot l")
-public class Lot implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name="LOT_ID")
+
+public class Lot {
+	
 	private Integer lotId;
 
-	//bi-directional many-to-one association to Stead
-	@ManyToOne
 	private Stead stead;
 	
 	private Auction auction;

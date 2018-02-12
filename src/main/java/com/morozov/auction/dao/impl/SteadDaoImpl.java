@@ -170,6 +170,23 @@ public class SteadDaoImpl implements SteadDao {
 		}
 	}
 	
+	@Override
+	public List<Stead> findAvailableByUserId(Integer userId, Integer auctionId) throws Exception {
+		String sql = "SELECT S.STEAD_ID, U.USER_ID, U.FIRST_NAME, U.LAST_NAME, U.DISPLAY_NAME, U.EMAIL, U.CRTD_TMS, U.UPTD_TMS,"
+				+ "  U.COUNTRY, U.CITY, U.ADDRESS, U.PHONE, S.STEAD_COUNTRY, S.STEAD_REGION, S.STEAD_CITY, "
+				+ "S.STEAD_ADDRESS, S.COORDINATES, S.SIZE, S.DESCRIPTION, S.RESERVE_PRICE, S.STEAD_CRTD_TMS, S.STEAD_UPTD_TMS "
+				+ "FROM STEAD AS S INNER JOIN USER_PROFILE AS U ON S.OWNER_ID=U.USER_ID WHERE S.OWNER_ID=:OWNER_ID"
+				+ " AND S.STEAD_ID NOT IN (SELECT STEAD_ID FROM LOT WHERE AUCTION_ID=:AUCTION_ID)";
+		SqlParameterSource params = new MapSqlParameterSource()
+				.addValue("OWNER_ID", userId)
+				.addValue("AUCTION_ID", auctionId);
+		try {
+			return npJdbcTemplate.query(sql, params, new SteadRowMapper());
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
+	
 
 	@Override
 	public List<Stead> findByCity(String city) throws Exception {

@@ -26,29 +26,37 @@ public class BidValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		Bid bid = (Bid) target;
 
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "bid", "bid.NotEmpty");
+		ValidationUtils.rejectIfEmpty(errors, "bid", "bid.NotEmpty");
+		if(bid.getBid() == null) {
+			errors.rejectValue("bid", "bid.notEmpty");
+		}
+		if (bid.getLotMember() == null) {
+			errors.rejectValue("bid", "bid.lotDeposit", "You haven't been paid deposit for this lot.");
+		} else {
+			Lot lot = bid.getLotMember().getLot();
+			List<Bid> lotBids;
+			try {
+				lotBids = bidService.findBidsByLotId(lot.getLotId());
 
-		Lot lot = bid.getLotMember().getLot();
-		List<Bid> lotBids;
-		try {
-			lotBids = bidService.findBidsByLotId(lot.getLotId());
-
-			if (!lotBids.isEmpty()) {
-				Bid lastBid = lotBids.get(lotBids.size() - 1);
-				BigDecimal last = lastBid.getBid();
-				rejectBid(bid, last, errors);
-			} else {
-				BigDecimal reservePrice = lot.getStead().getReservePrice();
-				rejectBid(bid, reservePrice, errors);
+				if (!lotBids.isEmpty()) {
+					Bid lastBid = lotBids.get(lotBids.size() - 1);
+					BigDecimal last = lastBid.getBid();
+					rejectBid(bid, last, errors);
+				} else {
+					BigDecimal reservePrice = lot.getStead().getReservePrice();
+					rejectBid(bid, reservePrice, errors);
+				}
+			} catch (Exception e) {
+				errors.rejectValue("bid", "bid.noCheck");
 			}
-		} catch (Exception e) {
-			errors.rejectValue("bid", "bid.noCheck");
 		}
 	}
+	
 
 	private void rejectBid(Bid bid, BigDecimal lastBid, Errors errors) {
 		if (bid.getBid().compareTo(lastBid) == -1 || bid.getBid().compareTo(lastBid) == 0) {
-			errors.rejectValue("bid", "bid.lessThanNecessary", "Bid value must be greater than actual price price of item");
+			errors.rejectValue("bid", "bid.lessThanNecessary",
+					"Bid value must be greater than actual price price of item");
 		} else if (bid.getBid().signum() == -1) {
 			errors.rejectValue("bid", "bid.negativeValue", "Negative value of bid");
 		} else if (bid.getBid().signum() == 0) {

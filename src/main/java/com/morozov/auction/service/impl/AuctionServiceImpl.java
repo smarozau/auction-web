@@ -2,8 +2,6 @@ package com.morozov.auction.service.impl;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.morozov.auction.dao.AuctionDao;
@@ -12,7 +10,7 @@ import com.morozov.auction.service.AuctionService;
 
 public class AuctionServiceImpl implements AuctionService {
 
-private Logger logger = LoggerFactory.getLogger(AuctionServiceImpl.class);
+
 	
 	private AuctionDao auctionDao;
 	
@@ -49,6 +47,13 @@ private Logger logger = LoggerFactory.getLogger(AuctionServiceImpl.class);
 	public int countAll() throws Exception {
 		
 		return auctionDao.countAll();
+	}
+
+	@Override
+	public void updateStatusCode(Integer auctionId, Integer statusCode) throws Exception {
+		
+		auctionDao.updateStatusCode(auctionId, statusCode);
+		
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.morozov.auction.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,9 +13,7 @@ import com.morozov.auction.service.BidService;
 
 public class BidServiceImpl implements BidService {
 
-private Logger logger = LoggerFactory.getLogger(BidServiceImpl.class);
-	
-	private BidDao bidDao;
+private BidDao bidDao;
 	
 	public void setBidDao(BidDao bidDao) {
 		this.bidDao = bidDao;
@@ -34,9 +33,20 @@ private Logger logger = LoggerFactory.getLogger(BidServiceImpl.class);
 	}
 
 	@Override
-	public Bid findMaxBidForLot(Integer lotId) throws Exception {
+	public BigDecimal findMaxBidForLot(Integer lotId) throws Exception {
 		
 		return bidDao.findMaxBidForLot(lotId);
+	}
+
+	@Override
+	public void updateLotForWinner(Bid bid) throws Exception {
+		bidDao.updateLotForWinner(bid);
+		
+	}
+
+	@Override
+	public Integer findBidderIdForLotByBid(BigDecimal maxBid, Integer lotId) throws Exception {
+		return bidDao.findBidderIdForLotByBid(maxBid, lotId);
 	}
 
 }

@@ -2,7 +2,7 @@ package com.morozov.auction.model;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -69,6 +69,9 @@ public class Auction implements Serializable {
 	}
 
 	public List<Lot> getLots() {
+		if (this.lots == null) {
+			this.lots = new ArrayList<Lot>();
+		}
 		return this.lots;
 	}
 

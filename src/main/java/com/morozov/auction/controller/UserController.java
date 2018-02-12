@@ -7,16 +7,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.morozov.auction.helpers.LogHelper;
 import com.morozov.auction.model.User;
+import com.morozov.auction.model.validation.UserValidator;
 import com.morozov.auction.service.UserService;
 
 @Controller
@@ -26,10 +30,19 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private UserValidator userValidator;
 
 	@Autowired
 	private MessageSource messageSource;
+	
+	@InitBinder
+	private void initBidBinder(WebDataBinder binder) {
+		binder.setValidator(userValidator);
+	}
 
+//	@Secured("ROLE_ADMIN")
 	@RequestMapping(path = "/users", method = RequestMethod.GET)
 	public String showUsers(ModelMap model, Locale locale) throws Exception {
 		List<User> users = userService.findAll();

@@ -30,4 +30,6 @@ public interface SteadDao {
 	public int countAll() throws Exception;
 	
 	public boolean deleteById (Integer steadId) throws Exception;
+
+	public List<Stead> findAvailableByUserId(Integer userId, Integer auctionId) throws Exception;
 }

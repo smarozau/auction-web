@@ -82,6 +82,7 @@ public class LotMemberDaoImpl implements LotMemberDao {
 		if (logger.isDebugEnabled()) {
 			logger.debug("Saving member for lot " + member);
 		}
+		member.setDeposit();
 		SqlParameterSource params = new MapSqlParameterSource()
 				.addValue("LOT_ID", member.getLot().getLotId())
 				.addValue("MEMBER_ID", member.getUser().getUserId())

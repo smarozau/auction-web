@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -46,7 +47,7 @@ public class SteadController {
 		binder.addValidators(steadValidator);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+//	@Secured("ROLE_ADMIN")
 	@RequestMapping(path = "/steads", method = RequestMethod.GET)
 	public String showSteads(ModelMap model, Locale locale) throws Exception {
 		List<Stead> steads = steadService.findAll();
@@ -65,6 +66,7 @@ public class SteadController {
 		return "stead";
 	}
 	
+//	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@RequestMapping(path = "/stead/{steadId}/edit", method = RequestMethod.GET)
 	public String editStead(@PathVariable("steadId") int steadId, ModelMap model, Locale locale) throws Exception {
 		Stead stead = steadService.findById(steadId);
@@ -91,6 +93,7 @@ public class SteadController {
 		return "redirect:/stead/" + stead.getSteadId();
 	}
 	
+//	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@RequestMapping(path = "/steads/{userId}", method = RequestMethod.GET)
 	public String showUserSteads(@PathVariable("userId") int userId, ModelMap model, Locale locale) throws Exception {
 		List<Stead> steads = steadService.findByUserId(userId);

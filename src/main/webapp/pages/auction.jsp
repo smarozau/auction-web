@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="includes/header.jsp" />
 
 <div class="container">
@@ -46,9 +47,11 @@
 							<th><s:message code="label.city" /></th>
 							<th><s:message code="label.size" /></th>
 							<th><s:message code="label.reservePrice" /></th>
+							<th><s:message code="label.countMembers" /></th>
 							<c:choose>
 								<c:when test="${status=='FINISHED'}">
 									<th><s:message code="label.finishPrice" /></th>
+									<th><s:message code="label.winner" /></th>
 								</c:when>
 								<c:when test="${status=='ACTIVE'}">
 									<th><s:message code="label.actualPrice" /></th>
@@ -65,34 +68,16 @@
 								<td>${lot.stead.steadCity}</td>
 								<td>${lot.stead.size}</td>
 								<td>${lot.stead.reservePrice}</td>
+								<td>${fn:length(members[lot])}</td>
 								<c:choose>
 									<c:when test="${status=='FINISHED'}">
-										<td>${results[lot]}</td>
+										<td>${results[lot.lotId]}</td>
+										<td>${winners[lot.lotId]}</td>
 									</c:when>
 									<c:when test="${status=='ACTIVE'}">
 										<th>${results[size-1]}</th>
-										<th><s:bind path="bid.bid">
-												<div>
-													<form action="/${auction.id}/makeBid" method="POST">
-														<div class="input-group">
-														<div class="form-group ${status.error ? 'has-error has-feedback' : ''}">
-															<input type="number" name="bid" min="0" step="10" value="${bid.bid}"
-																class="form-control" placeholder="${results[size-1]}">
-																<input type="hidden" name="steadId" value="${lot.stead.steadId}">
-															<c:if test="${status.error}">
-																<span class="glyphicon glyphicon-remove form-control-feedback"></span>
-																<span class="help-block"> <sf:errors path="${bid.bid}" /></span>
-															</c:if>
-															</div>
-															<span class="input-group-btn">
-																<button class="btn btn-success" type="button">
-																	<s:message code="label.makeBid" />
-																</button>
-															</span>
-														</div>
-													</form>
-												</div>
-											</s:bind></th>
+										<th><a href="<c:url value="/lot/${lot.lotId}/makeBid"/>"
+				type="button" class="btn btn-primary"><s:message code="label.makeBid" /></a></th>
 									</c:when>
 								</c:choose>
 							</tr>

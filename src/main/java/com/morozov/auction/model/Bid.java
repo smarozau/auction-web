@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 public class Bid implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private int bidId;
+	private Integer bidId;
 
 	private BigDecimal bid;
 
@@ -27,7 +27,7 @@ public class Bid implements Serializable {
 		
 	}
 
-	public int getBidId() {
+	public Integer getBidId() {
 		return this.bidId;
 	}
 

@@ -1,96 +1,52 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <jsp:include page="/pages/includes/header.jsp" />
 
-<div class="panel panel-primary">
-	<div class="panel-heading">
-		<s:message code="title.lot" />
-		ID: ${lot.lotId}
-	</div>
-	<p />
-	<div class="row">
-		<div class="col-md-8">
-			<form action="lot/${lot.lotId}" class="form-horizontal">
-				<s:bind path="lotMember">
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="auction.id"> <s:message
-								code="label.auction" />
-						</label>
-						<div class="col-sm-4">
-							<p class="form-control-static">
-								<a href="<c:url value="/auction/${lot.auction.id}"/>">${lot.auction.id}</a>
-							</p>
-						</div>
-					</div>
+<c:if test="${not empty error}">
+	<div class="alert alert-danger">${error}</div>
+</c:if>
+<div class="container">
+	<div class="panel panel-default">
+		<div class="panel-heading"><B>${title} ID ${lot.lotId}</B></div>
+		<div class="panel-body">
+			<B><s:message code="label.region" />:</B> ${lot.stead.steadRegion}
+		</div>
+		<div class="panel-body">
+			<B><s:message code="label.city" />:</B> ${lot.stead.steadCity}
+		</div>
+		<div class="panel-body">
+			<B><s:message code="label.address" />:</B> ${lot.stead.steadAddress}
+		</div>
+		<div class="panel-body">
+			<B><s:message code="label.coordinates" />:</B> ${lot.stead.coordinates}
+		</div>
+		<div class="panel-body">
+			<B><s:message code="label.size" />:</B> ${lot.stead.size}
+		</div>
+		<div class="panel-body">
+			<B><s:message code="label.description" />:</B> ${lot.stead.description}
+		</div>
+		<div class="panel-body">
+			<B><s:message code="label.reservePrice" />:</B> ${lot.stead.reservePrice}
+		</div>
+		<div class="panel-body">
+			<B><s:message code="label.owner" />:</B> ${lot.stead.owner.displayName}
+		</div>
+	
+	
+		<c:if
+			test="${(lot.auction.statusCode.statusCode != 3) and (lot.stead.owner.userId != user.userId)}">
 
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="stead.steadCountry">
-							<s:message code="label.country" />
-						</label>
-						<div class="col-sm-4">
-							<p class="form-control-static">${lot.stead.steadCountry}</p>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="stead.steadRegion">
-							<s:message code="label.region" />
-						</label>
-						<div class="col-sm-4">
-							<p class="form-control-static">${lot.stead.steadRegion}</p>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="stead.steadCity">
-							<s:message code="label.city" />
-						</label>
-						<div class="col-sm-4">
-							<p class="form-control-static">${lot.stead.steadCity}</p>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="stead.steadAddress">
-							<s:message code="label.address" />
-						</label>
-						<div class="col-sm-4">
-							<p class="form-control-static">${lot.stead.steadAddress}</p>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="stead.coordinates">
-							<s:message code="label.coordinates" />
-						</label>
-						<div class="col-sm-4">
-							<p class="form-control-static">${lot.stead.coordinates}</p>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="stead.description">
-							<s:message code="label.description" />
-						</label>
-						<div class="col-sm-4">
-							<p class="form-control-static">${lot.stead.description}</p>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="stead.reservePrice">
-							<s:message code="label.reservePrice" />
-						</label>
-						<div class="col-sm-4">
-							<p class="form-control-static">${lot.stead.reservePrice}</p>
-						</div>
-					</div>
-					<c:if test="${lot.auction.statusCode.statusCode =='1'}">
-						<input type="submit" value="<s:message code="label.takePart"/>"
-							class="btn btn-primary" />
-					</c:if>
-					<c:if test="${status.error}">
-					<span class="help-block"> <sf:errors path="${lotMember}" /> </span>
-				</c:if>
-					</s:bind>
+			<form action="${lot.lotId}" class="form-horizontal" method="POST">
+				<input type="submit" value="<s:message code="label.takePart"/>"
+					class="btn btn-primary" /> <input type="hidden" name="userId"
+					value="${user.userId}" />
 			</form>
+
+		</c:if>
 		</div>
 	</div>
+<p/>
 
-</div>
 <jsp:include page="/pages/includes/footer.jsp" />

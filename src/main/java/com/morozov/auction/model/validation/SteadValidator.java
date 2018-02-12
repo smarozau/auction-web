@@ -35,29 +35,24 @@ public class SteadValidator implements Validator {
 				"Stead's address value is required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "coordinates", "coordinates.required",
 				"Stead's coordinates value is required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "size", "size.required", "Stead's size value is required");
+		ValidationUtils.rejectIfEmpty(errors, "size", "size.required", "Stead's size value is required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "description.required",
 				"Stead's description value is required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "reservePrice", "reservePrice.required",
+		ValidationUtils.rejectIfEmpty(errors, "reservePrice", "reservePrice.required",
 				"Stead's price value is required");
 
-		if (stead != null) {
-			if (stead.getSize().intValue() <= 0) {
+		if (stead.getSize() == null){
+			errors.rejectValue("size", "size.required", "Stead's size value is required");
+		} else if (stead.getSize().intValue() <= 0) {
 				errors.rejectValue("size", "steadSize.negativevalue", "Negative value");
 			}
-			if (stead.getReservePrice().signum() == -1) {
-				errors.rejectValue("reservePrice", "steadReservePrice.negativevalue");
+		
+		if(stead.getReservePrice() == null) {
+			errors.rejectValue("reservePrice", "reservePrice.required",	"Stead's price value is required");
 			} else if (stead.getReservePrice().signum() == 0) {
-				errors.rejectValue("reservePrice", "steadReservePrice.zero");
+				errors.rejectValue("reservePrice", "steadReservePrice.zero", "Cannot be zero");
 			}
 
-			// try {
-			// errors.pushNestedPath("owner");
-			// ValidationUtils.invokeValidator(userValidator, stead.getOwner(),
-			// errors);
-			// } finally {
-			// errors.popNestedPath();
-			// }
-		}
+			
 	}
 }

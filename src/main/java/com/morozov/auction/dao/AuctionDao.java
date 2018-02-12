@@ -1,9 +1,9 @@
 package com.morozov.auction.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import com.morozov.auction.model.Auction;
-import com.morozov.auction.model.StatusCode;
 
 /**
  * @author Sergey Morozov
@@ -22,7 +22,9 @@ public interface AuctionDao {
 		
 		public int countAll() throws Exception;
 		
-//		public void cancelAuction(Auction aucton) throws Exception;
+		void updateStatusCode(Integer auctionId, Integer statusCode) throws Exception;
+		
+//		public void cancelAuction(Auction auction) throws Exception;
 		
 	}
 

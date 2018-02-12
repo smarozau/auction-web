@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.morozov.auction.model.Bid;
-import com.morozov.auction.model.User;
 
 public interface BidService {
 
@@ -12,5 +11,9 @@ public interface BidService {
 	
 	public List<Bid> findBidsByLotId(Integer lotId) throws Exception;
 	
-	public Bid findMaxBidForLot(Integer lotId) throws Exception;
+	public BigDecimal findMaxBidForLot(Integer lotId) throws Exception;
+
+	public void updateLotForWinner(Bid bid) throws Exception;
+	
+	public Integer findBidderIdForLotByBid(BigDecimal maxBid, Integer lotId) throws Exception;
 }
