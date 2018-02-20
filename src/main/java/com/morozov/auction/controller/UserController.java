@@ -42,7 +42,7 @@ public class UserController {
 		binder.setValidator(userValidator);
 	}
 
-//	@Secured("ROLE_ADMIN")
+	@Secured("ROLE_ADMIN")
 	@RequestMapping(path = "/users", method = RequestMethod.GET)
 	public String showUsers(ModelMap model, Locale locale) throws Exception {
 		List<User> users = userService.findAll();

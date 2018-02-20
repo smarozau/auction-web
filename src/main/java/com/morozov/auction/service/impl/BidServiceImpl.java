@@ -49,4 +49,10 @@ private BidDao bidDao;
 		return bidDao.findBidderIdForLotByBid(maxBid, lotId);
 	}
 
+	@Override
+	public List<Bid> findBidsByUserId(Integer userId) throws Exception {
+		
+		return bidDao.findBidsByUserId(userId);
+	}
+
 }

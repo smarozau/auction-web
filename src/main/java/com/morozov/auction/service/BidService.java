@@ -16,4 +16,6 @@ public interface BidService {
 	public void updateLotForWinner(Bid bid) throws Exception;
 	
 	public Integer findBidderIdForLotByBid(BigDecimal maxBid, Integer lotId) throws Exception;
+	
+	public List<Bid> findBidsByUserId(Integer userId) throws Exception;
 }

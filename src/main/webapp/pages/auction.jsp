@@ -2,6 +2,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="includes/header.jsp" />
 
 <div class="container">
@@ -10,10 +11,10 @@
 			<B>${title} ID ${auction.id}</B>
 		</div>
 		<div class="panel-body">
-			<B><s:message code="label.startTime" />:</B> ${auction.startTime}
+			<B><s:message code="label.startTime" />:</B> <fmt:formatDate value="${auction.startTime}" type="both" timeStyle="medium" />
 		</div>
 		<div class="panel-body">
-			<B><s:message code="label.finishTime" />:</B> ${auction.endTime}
+			<B><s:message code="label.finishTime" />:</B> <fmt:formatDate value="${auction.endTime}" type="both" timeStyle="medium" />
 		</div>
 		<div class="panel-body">
 			<c:choose>

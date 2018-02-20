@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -74,6 +75,7 @@ public class AuctionController {
 		binder.setValidator(auctionValidator);
 	}
 
+	@Secured("ROLE_ADMIN")
 	@RequestMapping(path = "/auctions", method = RequestMethod.GET)
 	public String showAuctions(ModelMap model, Locale locale) throws Exception {
 		List<Auction> auctions = auctionService.findAll();
@@ -194,17 +196,17 @@ public class AuctionController {
 
 	}
 
-	// @Secured("ROLE_ADMIN")
+	@Secured("ROLE_ADMIN")
 	@RequestMapping(path = "/createAuction", method = RequestMethod.GET)
-	public String showAuctionForm(Model model, Locale locale) {
+	public String showAuctionForm(ModelMap model, Locale locale) {
 		model.addAttribute("title", messageSource.getMessage("label.newAuction", new Object[0], locale));
 		model.addAttribute("auction", new Auction());
 		return "createAuction";
 	}
 
-	// @Secured("ROLE_ADMIN")
+	@Secured("ROLE_ADMIN")
 	@RequestMapping(path = "/createAuction", method = RequestMethod.POST)
-	public String showSaveAuction(@Validated @ModelAttribute Auction auction, BindingResult bindingResult, Model model,
+	public String showSaveAuction(@Validated @ModelAttribute Auction auction, BindingResult bindingResult, ModelMap model,
 			Locale locale) throws Exception {
 		logger.info("Saving auction: " + auction);
 		if (bindingResult.hasErrors()) {

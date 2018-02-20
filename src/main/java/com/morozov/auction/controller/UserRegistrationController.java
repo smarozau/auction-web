@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
@@ -44,7 +45,7 @@ public class UserRegistrationController {
 	}
 	
 	@RequestMapping(path="/registration", method=RequestMethod.GET)
-	public String showRegistration(Model model, Locale locale) {
+	public String showRegistration(ModelMap model, Locale locale) {
 		model.addAttribute("title", messageSource.getMessage("label.registration",new Object[0], locale));
 		model.addAttribute("registration", new UserRegistrationData(new User()));
 		return "registration";
@@ -52,7 +53,7 @@ public class UserRegistrationController {
 	
 	@RequestMapping(path="/registration", method=RequestMethod.POST)
 	public String register(@Validated @ModelAttribute("registration") UserRegistrationData registration, BindingResult bindingResult,
-			Model model, Locale locale) throws Exception {
+			ModelMap model, Locale locale) throws Exception {
 		logger.info("Regestering user: " + registration.getUser());		
 		if (bindingResult.hasErrors()) {
 			LogHelper.logBindingResults(logger, bindingResult);

@@ -53,7 +53,8 @@ public class LocalAuthenticationProvider implements AuthenticationProvider {
 		String email = authentication.getName();
 		UserCredentials userCredentials = findUserCredentials(email);
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		String role = userCredentials.getRole().replace(" ","_");		      
+		String role = userCredentials.getRole();	
+		System.out.println(role);
         authenticate(authentication, userCredentials);
         
         User user = findUser( userCredentials.getUserId() );

@@ -129,6 +129,20 @@ public class BidDaoImpl implements BidDao {
 		SqlParameterSource params = new MapSqlParameterSource().addValue("LOT_ID", lotId);
 		return npJdbcTemplate.query(sql, params, new BidRowMapper());
 	}
+	
+	@Override
+	public List<Bid> findBidsByUserId(Integer userId) throws Exception {
+		String sql = "SELECT B.BID_ID, B.LOT_ID, B.BID, U.USER_ID, U.FIRST_NAME, U.LAST_NAME, U.DISPLAY_NAME, U.EMAIL, U.CRTD_TMS, U.UPTD_TMS,"
+				+ " U.COUNTRY, U.CITY, U.ADDRESS, U.PHONE, S.STEAD_ID, S.STEAD_COUNTRY, S.STEAD_REGION, S.STEAD_CITY, "
+				+ "S.STEAD_ADDRESS, S.COORDINATES, S.SIZE, S.DESCRIPTION, S.RESERVE_PRICE, S.STEAD_CRTD_TMS, S.STEAD_UPTD_TMS, "
+				+ "A.ID, A.START_TIME, A.END_TIME, SC.STAT_CD, SC.NAME FROM (((((BID AS B INNER JOIN LOT AS L ON B.LOT_ID=L.LOT_ID)"
+				+ " INNER JOIN STEAD AS S ON L.STEAD_ID=S.STEAD_ID)"
+				+ " INNER JOIN USER_PROFILE AS U ON S.OWNER_ID=U.USER_ID)"
+				+ "INNER JOIN AUCTION AS A ON L.AUCTION_ID=A.ID) INNER JOIN STAT_CD_REF AS SC ON A.STATUS_CODE=SC.STAT_CD) "
+				+ "WHERE B.BIDDER_ID=:USER_ID";
+		SqlParameterSource params = new MapSqlParameterSource().addValue("USER_ID", userId);
+		return npJdbcTemplate.query(sql, params, new BidRowMapper());
+	}
 
 	@Override
 	public BigDecimal findMaxBidForLot(Integer lotId) throws Exception {

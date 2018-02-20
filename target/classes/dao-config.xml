@@ -19,32 +19,12 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
 	
-	<!-- (1)
-		указаывем файл datasource.properties, содержащий настройки для подключения к базе данных
-		в формате ключ=значение; для доступа к значеним по ключу используется формат: "${ключ}" 
-		(настройки из datasource.properties далее будут использоваться в datasource-config.xml)
-	 -->	
-	<context:property-placeholder location="classpath:datasource.properties" ignore-unresolvable="true" />
+	   <context:property-placeholder location="classpath:datasource.properties" ignore-unresolvable="true" />
 	
-	<!-- (2)
-		 импортируем файл datasource-config.xml, в котором содержится конфигурация BasicDataSource,
-		 значения свойств(полей) бина dataSource возьмутся из datasource.properties, 
-		 т.е. <property name="url" value="${database.url}"/> эквивалентно <property name="url" value="jdbc:mysql://vps424546.ovh.net/bshop"/> 
-	 -->
-	<import resource="classpath:datasource-config.xml" />
+	   <import resource="classpath:datasource-config.xml" />
 	
-	<!-- (3)
-		импортируем файл dao-jdbc-tx-config.xml c бином npJdbcTemplate
-	 -->
-	<import resource="classpath:dao-jdbc-config.xml" />
+	   <import resource="classpath:dao-jdbc-config.xml" />
 	
-	<!-- <import resource="classpath:dao-jpa-hbm-config.xml" /> -->
+	   <import resource="classpath:dao-beans-config.xml" />
 	
-	<!-- (4)
-		импортируем файл dao-beans-config c DAO-бинами: userDao, productDao и т.д.
-	 -->	
-	<import resource="classpath:dao-beans-config.xml" />
-	
-	<!-- используем dao-config.xml в spring ApplicationContext  -->
-
-</beans>
+	</beans>
